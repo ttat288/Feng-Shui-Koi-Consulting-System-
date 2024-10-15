@@ -32,11 +32,14 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <Flex className={style.Wrapper}>
       {/* container */}
       <Flex w="100%">
-        <Sidebar />
-        <Flex className={style.Container} overflow="hidden">
+        <Flex className={style.Container}>
           <Header />
-          <Flex className={style.Container} overflow="auto">
-            <Flex className={style.Children}>{children}</Flex>
+          <Flex className={style.Container}>
+            <Flex width="100%" justifyContent="center">
+              <Flex minHeight="300px" width="80%">
+                {children}
+              </Flex>
+            </Flex>
           </Flex>
           <Footer />
         </Flex>

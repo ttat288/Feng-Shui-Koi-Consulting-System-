@@ -1,4 +1,5 @@
-import Home from "../pages/Home";
+import { DefaultLayout } from "../layouts";
+import Newest from "../pages/Newest";
 
 interface RouteItem {
   path: string;
@@ -7,8 +8,7 @@ interface RouteItem {
 }
 
 export const publicRoutes: RouteItem[] = [
-  { path: "/", component: Home, layout: null },
-  // { path: "/newBranch", component: New },
+  { path: "/", component: Newest, layout: DefaultLayout },
 ];
 
 export const privateRoutes: RouteItem[] = [];
