@@ -33,6 +33,12 @@ public partial class AppUser
 
     public DateOnly? UpdateDate { get; set; }
 
+    public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     public virtual Role Role { get; set; } = null!;
