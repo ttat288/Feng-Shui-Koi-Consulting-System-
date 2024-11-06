@@ -36,7 +36,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           <Header />
           <Flex className={style.Container}>
             <Flex width="100%" justifyContent="center">
-              <Flex minHeight="300px" width="80%">
+              <Flex minHeight="300px" width="100%" justifyContent="center">
                 {children}
               </Flex>
             </Flex>
