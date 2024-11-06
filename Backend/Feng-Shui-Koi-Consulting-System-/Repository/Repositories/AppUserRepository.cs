@@ -61,5 +61,10 @@ namespace Repository.Repositories
 
         }
 
+        public async Task<AppUser> GetUserById(int id)
+        {
+            return await GetByID(id);
+        }
+
     }
 }
