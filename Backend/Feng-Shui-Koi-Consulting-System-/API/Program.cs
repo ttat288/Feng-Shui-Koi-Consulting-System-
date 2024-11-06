@@ -10,6 +10,7 @@ using Repository.Interfaces;
 using Repository.Repositories;
 using Repository.UnitOfWork;
 using Service.ISerivice;
+using Service.IService;
 using Service.Mappings;
 using Service.Services;
 using System.Text;
@@ -65,11 +66,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IDestinyRepository, DestinyRepository>();
 
 // Register servicies
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IDestinyService, DestinyService>();
 
 //Config Jwt Token
 builder.Services.AddAuthentication(options =>
