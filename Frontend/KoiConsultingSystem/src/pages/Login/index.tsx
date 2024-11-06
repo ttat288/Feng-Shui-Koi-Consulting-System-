@@ -8,7 +8,9 @@ import {
   FormLabel,
   Input,
   Text,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -42,7 +44,13 @@ function Login() {
 
   return (
     <GoogleOAuthProvider clientId="654801886438-jigon4nh7ji7mmbi9aghbr5rec9j7ece.apps.googleusercontent.com">
-      <Flex align="center" justify="center" height="100vh" bg="gray.50">
+      <Flex
+        align="center"
+        justify="center"
+        height="100vh"
+        bg="gray.50"
+        width="100%"
+      >
         <Box width="400px" p="6" boxShadow="md" bg="white" borderRadius="md">
           <Text fontSize="2xl" mb="6" textAlign="center" fontWeight="bold">
             Login
@@ -66,15 +74,22 @@ function Login() {
           <Button colorScheme="blue" width="full" onClick={handleLogin} mb="4">
             Login
           </Button>
-          <Button
-            colorScheme="teal"
-            width="full"
-            variant="outline"
-            onClick={handleRegister}
-            mb="4"
+
+          <ChakraLink
+            as={ReactRouterLink}
+            to="/register"
+            style={{ textDecoration: "none", transition: "0.3s" }}
           >
-            Register
-          </Button>
+            <Button
+              colorScheme="teal"
+              width="full"
+              variant="outline"
+              onClick={handleRegister}
+              mb="4"
+            >
+              Register
+            </Button>
+          </ChakraLink>
           <GoogleLogin
             onSuccess={handleGoogleLogin}
             onError={() => console.log("Google login failed")}

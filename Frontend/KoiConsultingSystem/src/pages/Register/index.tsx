@@ -20,7 +20,13 @@ function Register() {
   };
 
   return (
-    <Flex align="center" justify="center" height="100vh" bg="gray.50">
+    <Flex
+      align="center"
+      justify="center"
+      height="100vh"
+      width="100%"
+      bg="gray.50"
+    >
       <Box width="400px" p="6" boxShadow="md" bg="white" borderRadius="md">
         <Text fontSize="2xl" mb="6" textAlign="center" fontWeight="bold">
           Register

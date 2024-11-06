@@ -5,8 +5,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./components/Theme.ts";
 import "./i18n/i18n.ts";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ChakraProvider theme={theme}>
-    <App />
-  </ChakraProvider>
-);
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>
+  );
+}

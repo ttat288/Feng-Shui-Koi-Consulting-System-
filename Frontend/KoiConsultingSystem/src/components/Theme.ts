@@ -1,14 +1,10 @@
-import { extendTheme } from "@chakra-ui/react";
-import { tableTheme } from "./table";
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
 
-const theme = extendTheme({
-    components: { Table: tableTheme },
-    colors: {
-      brand: {
-        100: "#b9d7d5",
-        200: "#a0c4c3",
-      },
-    },
-  });
+const config: ThemeConfig = {
+  initialColorMode: 'dark', // Mặc định là chế độ tối
+  useSystemColorMode: false, // Không đồng bộ với hệ thống, bạn kiểm soát bằng ứng dụng
+}
 
-  export default theme;
+const theme = extendTheme({ config })
+
+export default theme
