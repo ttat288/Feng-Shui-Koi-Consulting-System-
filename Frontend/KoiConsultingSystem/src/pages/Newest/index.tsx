@@ -18,112 +18,15 @@ const blogs = [
     imageUrl:
       "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
   },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  {
-    id: 1,
-    title: "Blog Name 1",
-    description:
-      "Discover the best plants to bring balance and harmony into your home",
-    imageUrl:
-      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
-  },
-  // Thêm dữ liệu mẫu tương tự cho các blog khác
-  // Giả sử có 16 blog
 ];
 
 const itemsPerPage = 8;
 
 function Newest() {
   const [currentPage, setCurrentPage] = useState(1);
-  const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.700", "gray.200");
+  // Dùng useColorModeValue để chọn màu nền và màu chữ cho light mode
+  const bgColor = useColorModeValue("white", "gray.800"); // màu nền cho light/dark mode
+  const textColor = useColorModeValue("gray.700", "gray.200"); // màu chữ cho light/dark mode
 
   const totalPages = Math.ceil(blogs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -136,23 +39,21 @@ function Newest() {
       justifyContent="center"
       py="10"
       mt="10px" // Thêm margin-top để tránh bị đè lên header
-      bg={bgColor}
+      bg={bgColor} // Sử dụng bgColor đã chọn
       w="95%"
     >
       <Flex
         direction="row"
         wrap="wrap"
         justifyContent="space-between"
-        //w={{ base: "full", md: "110%" }}
-        //maxW="1500px"
         width="100%"
       >
         {currentBlogs.map((blog) => (
           <Box
             key={blog.id}
-            w={{ base: "full", md: "23%" }} // Chỉnh chiều rộng cho mỗi blog (4 blog mỗi hàng)
+            w={{ base: "full", md: "23%" }} // Chiều rộng của mỗi box
             mb={4}
-            bg="white"
+            bg={useColorModeValue("white", "gray.700")} // Đảm bảo background trắng cho chế độ sáng
             boxShadow="md"
             borderRadius="lg"
             p={4}
