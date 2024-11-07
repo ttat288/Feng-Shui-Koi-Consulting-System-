@@ -7,7 +7,7 @@ import {
   Button,
   useColorModeValue,
 } from "@chakra-ui/react";
-import TinhBanMenh from "../../components/TinhBanMenh";
+import { Link } from "react-router-dom"; // Import Link từ react-router-dom
 
 const blogs = [
   {
@@ -17,16 +17,44 @@ const blogs = [
       "Discover the best plants to bring balance and harmony into your home",
     imageUrl:
       "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
+    body: "Here is the full content of the blog post.",
   },
+  {
+    id: 1,
+    title: "Blog Name 2",
+    description:
+      "Discover the best plants to bring balance and harmony into your home",
+    imageUrl:
+      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
+    body: "Here is the full content of the blog post.",
+  },
+  {
+    id: 1,
+    title: "Blog Name 3",
+    description:
+      "Discover the best plants to bring balance and harmony into your home",
+    imageUrl:
+      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
+    body: "Here is the full content of the blog post.",
+  },
+  {
+    id: 1,
+    title: "Blog Name 4",
+    description:
+      "Discover the best plants to bring balance and harmony into your home",
+    imageUrl:
+      "https://simplepage.vn/blog/wp-content/uploads/2021/06/huong-dan-tao-blog-website.png",
+    body: "Here is the full content of the blog post.",
+  },
+  // Thêm các bài blog khác nếu cần
 ];
 
 const itemsPerPage = 8;
 
 function Newest() {
   const [currentPage, setCurrentPage] = useState(1);
-  // Dùng useColorModeValue để chọn màu nền và màu chữ cho light mode
-  const bgColor = useColorModeValue("white", "gray.800"); // màu nền cho light/dark mode
-  const textColor = useColorModeValue("gray.700", "gray.200"); // màu chữ cho light/dark mode
+  const bgColor = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.700", "gray.200");
 
   const totalPages = Math.ceil(blogs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -38,8 +66,8 @@ function Newest() {
       alignItems="center"
       justifyContent="center"
       py="10"
-      mt="10px" // Thêm margin-top để tránh bị đè lên header
-      bg={bgColor} // Sử dụng bgColor đã chọn
+      mt="10px"
+      bg={bgColor}
       w="95%"
     >
       <Flex
@@ -51,33 +79,34 @@ function Newest() {
         {currentBlogs.map((blog) => (
           <Box
             key={blog.id}
-            w={{ base: "full", md: "23%" }} // Chiều rộng của mỗi box
+            w={{ base: "full", md: "23%" }}
             mb={4}
-            bg={useColorModeValue("white", "gray.700")} // Đảm bảo background trắng cho chế độ sáng
+            bg={useColorModeValue("white", "gray.700")}
             boxShadow="md"
             borderRadius="lg"
             p={4}
           >
-            <Image
-              src={blog.imageUrl}
-              alt={blog.title}
-              borderRadius="lg"
-              w="full"
-              h="200px"
-              objectFit="cover"
-            />
-            <Box pt={4}>
-              <Text fontSize="xl" fontWeight="bold" color={textColor}>
-                {blog.title}
-              </Text>
-              <Text fontSize="sm" color={textColor}>
-                {blog.description}
-              </Text>
-            </Box>
+            <Link to={`/newest/${blog.title}`}>
+              <Image
+                src={blog.imageUrl}
+                alt={blog.title}
+                borderRadius="lg"
+                w="full"
+                h="200px"
+                objectFit="cover"
+              />
+              <Box pt={4}>
+                <Text fontSize="xl" fontWeight="bold" color={textColor}>
+                  {blog.title}
+                </Text>
+                <Text fontSize="sm" color={textColor}>
+                  {blog.description}
+                </Text>
+              </Box>
+            </Link>
           </Box>
         ))}
       </Flex>
-
       <Flex mt={4} justifyContent="space-between" w="full" maxW="1200px">
         <Button
           isDisabled={currentPage === 1}

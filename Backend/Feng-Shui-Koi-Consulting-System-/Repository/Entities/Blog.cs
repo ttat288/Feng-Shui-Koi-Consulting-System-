@@ -9,6 +9,8 @@ public partial class Blog
 
     public string? BlogTitle { get; set; }
 
+    public string? BlogImg { get; set; }
+
     public string? BlogData { get; set; }
 
     public DateTime? CreateDate { get; set; }
