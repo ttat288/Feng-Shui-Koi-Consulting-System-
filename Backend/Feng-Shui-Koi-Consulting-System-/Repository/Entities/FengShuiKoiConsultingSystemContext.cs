@@ -41,11 +41,11 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
     {
         modelBuilder.Entity<AppUser>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__AppUser__1788CCACABD26CFC");
+            entity.HasKey(e => e.UserId).HasName("PK__AppUser__1788CCACFFF7C209");
 
             entity.ToTable("AppUser");
 
-            entity.HasIndex(e => e.UserCode, "UQ__AppUser__1DF52D0C0AAB8726").IsUnique();
+            entity.HasIndex(e => e.UserCode, "UQ__AppUser__1DF52D0C63ED8A9D").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Fullname).HasMaxLength(50);
@@ -74,7 +74,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E50D2BB1746");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E5062E13816");
 
             entity.ToTable("Blog");
 
@@ -98,7 +98,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.CommentId).HasName("PK__Comment__C3B4DFAAF2444973");
+            entity.HasKey(e => e.CommentId).HasName("PK__Comment__C3B4DFAAC4FB861C");
 
             entity.ToTable("Comment");
 
@@ -121,7 +121,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<Destiny>(entity =>
         {
-            entity.HasKey(e => e.DestinyId).HasName("PK__Destiny__533EF5B9698EAD4B");
+            entity.HasKey(e => e.DestinyId).HasName("PK__Destiny__533EF5B91D69F8E0");
 
             entity.ToTable("Destiny");
 
@@ -131,7 +131,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<FishPond>(entity =>
         {
-            entity.HasKey(e => e.FishPondId).HasName("PK__FishPond__4A21E16B7D22AB64");
+            entity.HasKey(e => e.FishPondId).HasName("PK__FishPond__4A21E16BFB2DECE7");
 
             entity.ToTable("FishPond");
 
@@ -148,7 +148,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<KoiFish>(entity =>
         {
-            entity.HasKey(e => e.FishId).HasName("PK__KoiFish__F82A5BF997266BC9");
+            entity.HasKey(e => e.FishId).HasName("PK__KoiFish__F82A5BF97318C1F2");
 
             entity.ToTable("KoiFish");
 
@@ -165,7 +165,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.RateId).HasName("PK__Rating__58A7CCBC9302718F");
+            entity.HasKey(e => e.RateId).HasName("PK__Rating__58A7CCBCF84C3451");
 
             entity.ToTable("Rating");
 
@@ -186,11 +186,11 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<RefreshToken>(entity =>
         {
-            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E59CA247DEA");
+            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E598D5CB168");
 
             entity.ToTable("RefreshToken");
 
-            entity.HasIndex(e => e.RefreshTokenCode, "UQ__RefreshT__5FC54920A522D024").IsUnique();
+            entity.HasIndex(e => e.RefreshTokenCode, "UQ__RefreshT__5FC54920ADC8325A").IsUnique();
 
             entity.Property(e => e.RefreshTokenId).HasColumnName("RefreshTokenID");
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
@@ -210,7 +210,7 @@ public partial class FengShuiKoiConsultingSystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A4252127E");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A16CEB003");
 
             entity.ToTable("Role");
 
