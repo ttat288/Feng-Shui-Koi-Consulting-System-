@@ -35,5 +35,24 @@ namespace API.Controllers
             }
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetDestinyName(int year, string gender)
+        {
+            try
+            {
+                var destiny = await _destinyService.GetDestinyName(year, gender);
+                if (destiny == null)
+                {
+                    return NotFound(new { StatusCode = StatusCodes.Status404NotFound, Message = "Không tìm thấy mệnh cho người dùng này.", DestinyId = (object)null });
+                }
+
+                return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Successful", DestinyId = destiny });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message, DestinyId = (object)null });
+            }
+        }
     }
 }

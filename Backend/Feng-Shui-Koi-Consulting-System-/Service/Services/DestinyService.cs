@@ -48,7 +48,32 @@ namespace Service.Services
             };
         }
 
-        private string CalculateDestinyByYear(int year, string gender)
+        public async Task<DestinyResultDto> GetDestinyName(int year, string gender)
+        {
+            if (year < 1950 || year > DateTime.Now.Year)
+            {
+                throw new ArgumentException("Năm không được nhỏ hơn 1950 hoặc lớn hơn " + DateTime.Now.Year);
+            }
+
+            if (gender.ToLower() != "male" && gender.ToLower() != "female")
+            {
+                throw new ArgumentException("Giới tính phải là nam(Male/male) hoặc nữ(Female/female)");
+            }
+            string destinyName = CalculateDestinyByYear(year, gender);
+            var destiny = await _destinyRepository.FindByName(destinyName);
+            if (destiny == null)
+            {
+                throw new ArgumentException("Không tìm thấy mệnh tương ứng.");
+            }
+            return new DestinyResultDto
+            {
+                DestinyId = destiny.DestinyId,
+                DestinyName = destiny.DestitnyName
+            };
+
+        }
+
+            private string CalculateDestinyByYear(int year, string gender)
         {
             int lunarYear = year % 9;
             string destiny = "";
