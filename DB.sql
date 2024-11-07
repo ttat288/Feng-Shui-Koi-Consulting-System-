@@ -144,24 +144,24 @@ CREATE TABLE Rating
 
 INSERT INTO Destiny (DestitnyName)
 VALUES 
-('Kim'),
-('Mộc'),
-('Thủy'),
-('Hỏa'),
-('Thổ');
+(N'Kim'),
+(N'Mộc'),
+(N'Thủy'),
+(N'Hỏa'),
+(N'Thổ');
 
 INSERT INTO KoiFish (FishName, ImgURL, Description, DestinyID)
 VALUES
-('Koi Kim Ngân', '', 'Cá Koi thuộc hành Kim, mang lại sự thịnh vượng và tài lộc.', 1),
-('Koi Thanh Mộc', '', 'Cá Koi thuộc hành Mộc, mang lại sự phát triển và đổi mới.', 2),
-('Koi Bạch Thủy', '', 'Cá Koi thuộc hành Thủy, mang lại sự mát lành và an bình.', 3),
-('Koi Hồng Hỏa', '', 'Cá Koi thuộc hành Hỏa, mang lại nhiệt huyết và năng lượng.', 4),
-('Koi Vàng Thổ', '', 'Cá Koi thuộc hành Thổ, mang lại sự ổn định và bền vững.', 5);
+(N'Koi Kim Ngân', '', N'Cá Koi thuộc hành Kim, mang lại sự thịnh vượng và tài lộc.', 1),
+(N'Koi Thanh Mộc', '', N'Cá Koi thuộc hành Mộc, mang lại sự phát triển và đổi mới.', 2),
+(N'Koi Bạch Thủy', '', N'Cá Koi thuộc hành Thủy, mang lại sự mát lành và an bình.', 3),
+(N'Koi Hồng Hỏa', '', N'Cá Koi thuộc hành Hỏa, mang lại nhiệt huyết và năng lượng.', 4),
+(N'Koi Vàng Thổ', '', N'Cá Koi thuộc hành Thổ, mang lại sự ổn định và bền vững.', 5);
 
 INSERT INTO FishPond (PondName, ImgURL, Description, DestinyID)
 VALUES
-('Hồ Bạch Kim', '', 'Hồ cá mang yếu tố Kim, thích hợp cho những người mệnh Kim.', 1),
-('Hồ Lục Mộc', '', 'Hồ cá mang yếu tố Mộc, tượng trưng cho sự tươi mới và sinh sôi.', 2),
-('Hồ Thủy Tinh', '', 'Hồ cá mang yếu tố Thủy, giúp cân bằng và thư giãn.', 3),
-('Hồ Hỏa Ngọc', '', 'Hồ cá mang yếu tố Hỏa, đại diện cho sự năng động và nhiệt tình.', 4),
-('Hồ Địa Thổ', '', 'Hồ cá mang yếu tố Thổ, mang lại sự ổn định và vững chắc.', 5);
+(N'Hồ Bạch Kim', '', N'Hồ cá mang yếu tố Kim, thích hợp cho những người mệnh Kim.', 1),
+(N'Hồ Lục Mộc', '', N'Hồ cá mang yếu tố Mộc, tượng trưng cho sự tươi mới và sinh sôi.', 2),
+(N'Hồ Thủy Tinh', '', N'Hồ cá mang yếu tố Thủy, giúp cân bằng và thư giãn.', 3),
+(N'Hồ Hỏa Ngọc', '', N'Hồ cá mang yếu tố Hỏa, đại diện cho sự năng động và nhiệt tình.', 4),
+(N'Hồ Địa Thổ', '', N'Hồ cá mang yếu tố Thổ, mang lại sự ổn định và vững chắc.', 5);
