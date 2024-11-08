@@ -3,8 +3,7 @@
 //   BRANCH,
 // }
 
-// export enum UserRole {
-//   Admin = 1,
-//   BrandManager = 2,
-//   BranchManager = 3
-// }
+export enum UserRole {
+  Admin = 1,
+  Customer = 2,
+}
