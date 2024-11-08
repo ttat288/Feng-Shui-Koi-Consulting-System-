@@ -68,6 +68,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IDestinyRepository, DestinyRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 // Register servicies
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
@@ -75,6 +76,21 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IDestinyService, DestinyService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
+
 
 //Config Jwt Token
 builder.Services.AddAuthentication(options =>
@@ -129,6 +145,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthorization();
 

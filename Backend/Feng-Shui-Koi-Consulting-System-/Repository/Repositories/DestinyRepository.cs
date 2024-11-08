@@ -24,6 +24,11 @@ namespace Repository.Repositories
         {
             return await dbSet.FirstOrDefaultAsync(d => d.DestitnyName == destinyName);
         }
+
+        public async Task<Destiny> GetDestinyById(int id)
+        {
+            return await GetByID(id);
+        }
     }
 
 }
