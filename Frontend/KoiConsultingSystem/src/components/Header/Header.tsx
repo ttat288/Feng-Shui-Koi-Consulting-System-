@@ -25,6 +25,7 @@ import logo from "../../assets/images/koibloglogo.png";
 import CreateBlog from "../Blog/CreateBlog"; // Import component CreateBlog
 import { useDisclosure } from "@chakra-ui/react";
 import TinhBanMenh from "../TinhBanMenh";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode(); // Lấy colorMode và hàm toggleColorMode từ Chakra UI
@@ -38,6 +39,13 @@ function Header() {
     onOpen: onTBMOpen,
     onClose: onTBMClose,
   } = useDisclosure(); // Modal cho Tinh Bang Menh
+
+  const navigate = useNavigate();
+
+  function logoutHandler() {
+    localStorage.clear();
+    navigate("/login");
+  }
 
   return (
     <Flex
@@ -116,7 +124,7 @@ function Header() {
         </MenuButton>
         <MenuList>
           <MenuItem>User Info</MenuItem>
-          <MenuItem>Logout</MenuItem>
+          <MenuItem onClick={logoutHandler}>Logout</MenuItem>
         </MenuList>
       </Menu>
 

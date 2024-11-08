@@ -1,16 +1,31 @@
+import axios from "axios";
 import axiosLogin from "../api/axiosLogin";
 import { LoginResponse } from "../payloads/responses/LoginResponse.model";
 
 export const login = async (
-  username: string,
+  userName: string,
   password: string
 ): Promise<LoginResponse> => {
-  const res = await axiosLogin.post("authentication/login", {
-    userName: username,
-    password: password,
-  });
-  const apiResponse = res.data as LoginResponse;
-  return apiResponse;
+  try {
+    const res = await axiosLogin.post("authentication/login", {
+      username: userName, // kiểm tra xem backend mong đợi username hay userName
+      password: password,
+    });
+    
+    const apiResponse = res.data as LoginResponse;
+    
+    // Kiểm tra dữ liệu trả về
+    console.log("API response:", apiResponse);
+    return apiResponse;
+  } catch (error) {
+    // Xử lý lỗi
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.response?.status, error.response?.data || error.message);
+    } else {
+      console.error("Unknown error:", error);
+    }
+    throw error; // Đảm bảo lỗi được ném ra để xử lý ở nơi gọi
+  }
 };
 
 export const refreshToken = async (): Promise<string | undefined> => {
@@ -37,6 +52,7 @@ export const refreshToken = async (): Promise<string | undefined> => {
 
     return undefined;
   } catch (error) {
+    console.error("Refresh token error:", error);
     localStorage.removeItem("AccessToken");
     localStorage.removeItem("RefreshToken");
     return undefined;
