@@ -52,15 +52,15 @@ namespace API.Controllers
             try
             {
                 await _blogService.CreateBlog(blog);
-                return Ok(new { StatusCode = 201, Message = "Tạo blog thành công", Data = blog });
+                return Ok(new { StatusCode = StatusCodes.Status201Created, Message = "Tạo blog thành công", Data = blog });
             }
             catch (UnauthorizedAccessException ex)
             {
-                return Unauthorized(new { StatusCode = 401, Message = ex.Message, Data = (object)null });
+                return Unauthorized(new { StatusCode = StatusCodes.Status401Unauthorized, Message = ex.Message, Data = (object)null });
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { StatusCode = 400, Message = ex.Message, Data = (object)null });
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message, Data = (object)null });
             }
         }
 
@@ -71,7 +71,7 @@ namespace API.Controllers
             var existingBlog = await _blogService.GetBlogById(id);
             if (existingBlog == null)
             {
-                return NotFound(new { StatusCode = 404, Message = "Không tìm thấy blog để cập nhật", Data = (object)null });
+                return NotFound(new { StatusCode = StatusCodes.Status404NotFound, Message = "Không tìm thấy blog để cập nhật", Data = (object)null });
             }
 
             existingBlog.BlogTitle = blogDto.BlogTitle;
@@ -82,15 +82,15 @@ namespace API.Controllers
             try
             {
                 await _blogService.UpdateBlog(existingBlog);
-                return Ok(new { StatusCode = 200, Message = "Cập nhật blog thành công", Data = existingBlog });
+                return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Cập nhật blog thành công", Data = existingBlog });
             }
             catch (UnauthorizedAccessException ex)
             {
-                return Unauthorized(new { StatusCode = 401, Message = ex.Message, Data = (object)null });
+                return Unauthorized(new { StatusCode = StatusCodes.Status401Unauthorized, Message = ex.Message, Data = (object)null });
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { StatusCode = 400, Message = ex.Message, Data = (object)null });
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message, Data = (object)null });
             }
         }
 
@@ -101,11 +101,11 @@ namespace API.Controllers
             var existingBlog = await _blogService.GetBlogById(id);
             if (existingBlog == null)
             {
-                return NotFound(new { StatusCode = 404, Message = "Không tìm thấy blog để xóa", Data = (object)null });
+                return NotFound(new { StatusCode = StatusCodes.Status404NotFound, Message = "Không tìm thấy blog để xóa", Data = (object)null });
             }
 
             await _blogService.DeleteBlog(id);
-            return Ok(new { StatusCode = 200, Message = "Xóa blog thành công", Data = (object)null });
+            return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Xóa blog thành công", Data = (object)null });
         }
 
     }
