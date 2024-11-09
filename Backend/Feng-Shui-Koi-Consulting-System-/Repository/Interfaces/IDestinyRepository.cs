@@ -11,5 +11,6 @@ namespace Repository.Interfaces
     {
         Task<bool> Exists(int destinyId);
         Task<Destiny?> FindByName(string destinyName);
+        Task<Destiny> GetDestinyById(int id);
     }
 }
