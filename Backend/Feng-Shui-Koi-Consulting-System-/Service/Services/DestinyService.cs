@@ -27,7 +27,8 @@ namespace Service.Services
             {
                 throw new ArgumentException("User không tồn tại.");
             }
-            if (user.Dob == null) {
+            if (user.Dob == null)
+            {
                 throw new ArgumentException("Dob không có giá trị.");
             }
 
@@ -48,18 +49,18 @@ namespace Service.Services
             };
         }
 
-        public async Task<DestinyResultDto> GetDestinyName(int year, string gender)
+        public async Task<DestinyResultDto> GetDestinyName(int year)
         {
             if (year < 1950 || year > DateTime.Now.Year)
             {
                 throw new ArgumentException("Năm không được nhỏ hơn 1950 hoặc lớn hơn " + DateTime.Now.Year);
             }
 
-            if (gender.ToLower() != "male" && gender.ToLower() != "female")
-            {
-                throw new ArgumentException("Giới tính phải là nam(Male/male) hoặc nữ(Female/female)");
-            }
-            string destinyName = CalculateDestinyByYear(year, gender);
+            //if (gender.ToLower() != "male" && gender.ToLower() != "female")
+            //{
+            //    throw new ArgumentException("Giới tính phải là nam(Male/male) hoặc nữ(Female/female)");
+            //}
+            string destinyName = CalculateDestiny(year);
             var destiny = await _destinyRepository.FindByName(destinyName);
             if (destiny == null)
             {
@@ -73,7 +74,7 @@ namespace Service.Services
 
         }
 
-            private string CalculateDestinyByYear(int year, string gender)
+        private string CalculateDestinyByYear(int year, string gender)
         {
             int lunarYear = year % 9;
             string destiny = "";
@@ -112,6 +113,58 @@ namespace Service.Services
             }
 
             return destiny;
+        }
+        private string CalculateDestiny(int year)
+        {
+            int canValue = GetCanValue(year);
+            int chiValue = GetChiValue(year);
+            int combinedValue = (canValue + chiValue);
+            if (combinedValue > 5)
+            {
+                combinedValue = combinedValue - 5;
+            }
+            string[] elements = { " ","Kim", "Thủy", "Hỏa", "Thổ", "Mộc" };
+            return elements[combinedValue];
+        }
+
+        private int GetCanValue(int year)
+        {
+            int lastDigit = year % 10;
+            return lastDigit switch
+            {
+                0 => 4, // Canh
+                1 => 4, // Tân
+                2 => 5, // Nhâm
+                3 => 5, // Quý
+                4 => 1, // Giáp
+                5 => 1, // Ất
+                6 => 2, // Bính
+                7 => 2, // Đinh
+                8 => 3, // Mậu
+                9 => 3, // Kỷ
+                _ => throw new InvalidOperationException("Không xác định Can.")
+            };
+        }
+
+        private int GetChiValue(int year)
+        {
+            int chiIndex = (year%100)%12;
+            return chiIndex switch
+            {
+                0 => 0, // Tý, Sửu, Ngọ, Mùi
+                1 => 0, // Dần, Mão, Thân, Dậu
+                2 => 0, // Thìn, Tỵ, Tuất, Hợi
+                3 => 0,
+                4 => 1,
+                5 => 1,
+                6 => 1,
+                7 => 1,
+                8 => 2,
+                9 => 2,
+                10 => 2,
+                11 => 2,
+                _ => throw new InvalidOperationException("Không xác định Chi.")
+            };
         }
     }
 }

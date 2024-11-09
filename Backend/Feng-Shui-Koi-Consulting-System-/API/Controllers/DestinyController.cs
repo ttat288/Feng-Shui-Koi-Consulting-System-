@@ -36,12 +36,12 @@ namespace API.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetDestinyName(int year, string gender)
+        [HttpGet("calculate")]
+        public async Task<IActionResult> CalculateDestiny(int year)
         {
             try
             {
-                var destiny = await _destinyService.GetDestinyName(year, gender);
+                var destiny = await _destinyService.GetDestinyName(year);
                 if (destiny == null)
                 {
                     return NotFound(new { StatusCode = StatusCodes.Status404NotFound, Message = "Không tìm thấy mệnh cho người dùng này.", DestinyId = (object)null });
