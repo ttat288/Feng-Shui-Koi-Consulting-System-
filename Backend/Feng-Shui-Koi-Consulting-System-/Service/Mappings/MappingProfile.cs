@@ -16,6 +16,7 @@ namespace Service.Mappings
                 .ReverseMap();
             CreateMap<Token, TokenDto>().ReverseMap();
             CreateMap<RefreshToken, RefreshTokenDTO>().ReverseMap();
+            CreateMap<Rating, RatingDto>().ReverseMap();
 
         }
     }
