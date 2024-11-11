@@ -71,6 +71,7 @@ builder.Services.AddScoped<IDestinyRepository, DestinyRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IKoiFishRepository, KoiFishRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IFishPondRepository, FishPondRepository>();
 
 // Register servicies
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
@@ -81,6 +82,7 @@ builder.Services.AddScoped<IDestinyService, DestinyService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IKoiFishService, KoiFishService>();
 builder.Services.AddScoped<IRatingService, RatingService>();
+builder.Services.AddScoped<IFishPondService, FishPondService>();
 
 //CORS
 builder.Services.AddCors(options =>
