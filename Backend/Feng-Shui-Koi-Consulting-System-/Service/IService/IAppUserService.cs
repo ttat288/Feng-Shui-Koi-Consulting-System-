@@ -13,13 +13,14 @@ namespace Service.ISerivice
 
         Task<AppUserDTO?> GetByID(int id);
 
-        Task<int> Insert(AppUserDTO entity);
+        Task<AppUserDTO> Insert(AppUserDTO entity);
 
         Task<bool> Delete(int id);
 
         Task<bool> Update(int id, AppUserDTO entityToUpdate);
 
         Task<int> Count();
-        
+        Task<AppUserDTO> GetUserByEmailAsync(string gmail);
+
     }
 }

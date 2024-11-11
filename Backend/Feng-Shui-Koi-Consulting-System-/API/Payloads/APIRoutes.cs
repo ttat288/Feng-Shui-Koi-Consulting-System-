@@ -7,6 +7,7 @@
         public static class Authentication
         {
             public const string Login = Base + "/authentication/login";
+            public const string LoginByGmail = Base + "/authentication/login-gmail";
             public const string RefreshToken = Base + "/authentication/refresh-token";
 
         }

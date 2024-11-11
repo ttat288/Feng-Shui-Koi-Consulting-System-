@@ -12,14 +12,10 @@ namespace API.Payloads.Request.AppUser
     {
         [Required]
         [StringLength(100, MinimumLength = 3)]
-        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Chỉ được chứa chữ cái và số")]
         public string UserName { get; set; } = null!;
 
-        
+        public string UserPassword { get; set; }
         public int RoleId { get; set; }
-
-        [Required]
-        public bool IsActive { get; set; }
 
 
         [StringLength(100, MinimumLength = 3)]
@@ -28,12 +24,10 @@ namespace API.Payloads.Request.AppUser
 
         [Phone]
         public string? Phone { get; set; }
-        [Required]
-        public DateOnly? Dob { get; set; }
+        public DateTime? Dob { get; set; }
 
         [StringLength(10)]
         public string? Gender { get; set; }
-        public int? UpdateBy { get; set; } = 0;
 
     }
     

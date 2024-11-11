@@ -27,6 +27,101 @@ namespace API.Controllers
             _appUserService = appUserService;
         }
 
+
+        [HttpPost(APIRoutes.Authentication.LoginByGmail, Name = "LoginByGmail")]
+        public async Task<IActionResult> LoginByGmail([FromBody] string gmail)
+        {
+            try
+            {
+                // Kiểm tra xem Gmail có trong DB chưa
+                var existingUser = await _appUserService.GetUserByEmailAsync(gmail);
+
+                if (existingUser != null)
+                {
+                    // Người dùng đã tồn tại -> Tạo và trả về token
+
+                    var tokenExist1 = await _refreshTokenService
+                    .CheckRefreshTokenByUserIdAsync(existingUser.UserId!.Value);
+
+                    if (tokenExist1 != null)
+                    {
+                        var reuslt = await _refreshTokenService
+                            .RemoveRefreshTokenAsync(tokenExist1);
+                    }
+                    var token = await _accountService.GenerateAccessTokenAsync(existingUser.UserId.Value);
+                    return Ok(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status200OK,
+                        Message = "Đăng nhập thành công",
+                        Data = new
+                        {
+                            token,
+                            existingUser.UserId,
+                            existingUser.RoleId
+                        },
+                        IsSuccess = true
+                    });
+                }
+
+                // Tạo người dùng mới với Gmail này
+                var newUser = new AppUserDTO
+                {
+                    UserName = gmail, // có thể gán gmail làm tên người dùng
+                    Password = null,
+                    RoleId = 2,
+                    IsActive = true
+                };
+
+                // Lưu người dùng mới vào DB
+                var newUserInserted = await _appUserService.Insert(newUser);
+                if (newUserInserted == null)
+                {
+                    return BadRequest(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = "Không thể tạo người dùng mới",
+                        Data = null,
+                        IsSuccess = false
+                    });
+                }
+                var tokenExist = await _refreshTokenService
+                    .CheckRefreshTokenByUserIdAsync(newUserInserted.UserId!.Value);
+
+                if (tokenExist != null)
+                {
+                    var reuslt = await _refreshTokenService
+                        .RemoveRefreshTokenAsync(tokenExist);
+                }
+                // Tạo và trả về token cho người dùng mới
+                var newToken = await _accountService.GenerateAccessTokenAsync(newUserInserted.UserId!.Value);
+                return Ok(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Đăng nhập thành công",
+                    Data = new
+                    {
+                        newToken,
+                        newUserInserted.UserId,
+                        newUserInserted.RoleId,
+                    },
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Message = ex.Message,
+                    Data = null,
+                    IsSuccess = false
+                });
+            }
+        }
+
+
+
+
         [HttpPost(APIRoutes.Authentication.Login, Name = "LoginAsync")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequest reqObj)
         {
