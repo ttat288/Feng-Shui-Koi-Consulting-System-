@@ -68,6 +68,7 @@ namespace API.Controllers
                 {
                     UserName = gmail, // có thể gán gmail làm tên người dùng
                     Password = null,
+                    Fullname = gmail,
                     RoleId = 2,
                     IsActive = true
                 };
