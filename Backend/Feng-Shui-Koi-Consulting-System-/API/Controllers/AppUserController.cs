@@ -28,15 +28,14 @@ namespace API.Controllers
             {
                 var dto = new AppUserDTO();
                 dto.UserName = reqObj.UserName;
-                dto.IsActive = reqObj.IsActive;
+                dto.Password = reqObj.UserPassword;
                 dto.RoleId = reqObj.RoleId;
                 dto.Phone = reqObj.Phone;
                 dto.Gender = reqObj.Gender;
                 dto.Fullname = reqObj.Fullname;
-                dto.Dob = reqObj.Dob!.Value;
-                dto.UpdateBy = reqObj.UpdateBy;
+                dto.Dob = reqObj.Dob.HasValue ? DateOnly.FromDateTime(reqObj.Dob.Value) : null;
                 var UserAdd = await _appUserService.Insert(dto);
-                if (UserAdd == 0)
+                if (UserAdd == null)
                 {
                     return NotFound(new BaseResponse
                     {
@@ -70,7 +69,7 @@ namespace API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpDelete(APIRoutes.AppUser.Delete, Name = "DeleteUserAsync")]
-        public async Task<IActionResult> DeleteAsynce([FromRoute] int id, [FromQuery(Name ="brand-id")] int? brandId)
+        public async Task<IActionResult> DeleteAsynce([FromRoute] int id)
         {
             try
             {

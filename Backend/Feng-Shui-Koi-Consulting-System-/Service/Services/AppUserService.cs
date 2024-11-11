@@ -72,15 +72,25 @@ namespace Service.Services
             }
             return _mapper?.Map<AppUserDTO?>(entity);
         }
+        public async Task<AppUserDTO?> GetUserByEmailAsync(string gmail)
+        {
+            Expression<Func<AppUser, bool>> condition = x => x.UserName == gmail;
+            var entity = await _unitOfWork.AppUserRepository.GetByCondition(condition, "Role");
+            if (entity == null)
+            {
+                return null!;
+            }
+            return _mapper?.Map<AppUserDTO?>(entity);
+        }
 
-        public async Task<int> Insert(AppUserDTO dto)
+        public async Task<AppUserDTO> Insert(AppUserDTO dto)
         {
             var user = _mapper.Map<AppUser>(dto);
             user.UserCode = Guid.NewGuid().ToString();
             user.Status = (int)Status.Exist;
             user.CreateDate = DateOnly.FromDateTime(DateTime.Now);
-            user.Password = PasswordHelper.ConvertToEncrypt("123456");
-            //user.IsActive = false;
+            user.Password = dto.Password != null ? PasswordHelper.ConvertToEncrypt(dto.Password) : string.Empty;
+            user.IsActive = true;
 
             Expression<Func<AppUser, bool>> duplicateName = x => x.UserName.Equals(user.UserName) && (x.Status != (int)Status.Deleted);
             var exist = await _unitOfWork.AppUserRepository.GetByCondition(duplicateName);
@@ -92,9 +102,9 @@ namespace Service.Services
             var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
             if (result && newUser != null)
             {
-                return newUser.UserId;
+                return _mapper.Map<AppUserDTO>(newUser);
             }
-            return 0;
+            return null!;
         }
 
         public async Task<bool> Update(int id, AppUserDTO entityToUpdate)
