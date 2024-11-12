@@ -83,6 +83,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IKoiFishService, KoiFishService>();
 builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IFishPondService, FishPondService>();
+builder.Services.AddScoped<BlogImageService>();
 
 //CORS
 builder.Services.AddCors(options =>
