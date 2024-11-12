@@ -13,7 +13,7 @@ namespace Service.IService
         Task<IEnumerable<BlogDetailsDto>> GetAllBlogDetails(int? pageIndex = null, int? pageSize = null);
         Task<BlogDetailsDto> GetFullBlogById(int id);
         Task<Blog> GetBlogById(int id);
-        Task CreateBlog(Blog blog);
+        Task<BlogDetailsDto> CreateBlog(Blog blog);
         Task UpdateBlog(Blog blog);
         Task DeleteBlog(int id);
 
