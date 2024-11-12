@@ -1,5 +1,6 @@
 ﻿using Repository.Entities;
 using Repository.Interfaces;
+using Repository.Repositories;
 using Repository.UnitOfWork;
 using Service.IService;
 using Service.Models;
@@ -27,14 +28,51 @@ namespace Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<KoiFish>> GetAllKoiFish(int? pageIndex = null, int? pageSize = null)
+        public async Task<IEnumerable<object>> GetAllKoiFish(int? pageIndex = null, int? pageSize = null)
         {
-            return await _koiFishRepository.GetAllKoiFish(pageIndex, pageSize);
+            var koiFish = await _koiFishRepository.GetAllKoiFish(pageIndex, pageSize);
+
+            return koiFish.Select(kf => new
+            {
+                kf.FishId,
+                kf.FishName,
+                kf.ImgUrl,
+                kf.Description,
+                Destiny = new
+                {
+                    kf.Destiny.DestinyId,
+                    kf.Destiny.DestitnyName,
+                    BlogIds = kf.Destiny.Blogs.Select(b => b.BlogId),
+                    CommentIds = kf.Destiny.Comments.Select(c => c.CommentId),
+                    FishPondId = kf.Destiny.FishPonds.Select(kf => kf.FishPondId)
+                }
+            });
         }
 
-        public async Task<KoiFish> GetKoiFishById(int id)
+        public async Task<object> GetKoiFishById(int id)
         {
-            return await _koiFishRepository.GetKoiFishById(id);
+            var koiFish = await _koiFishRepository.GetKoiFishById(id);
+
+            if (koiFish == null)
+            {
+                return null;
+            }
+
+            return new
+            {
+                koiFish.FishId,
+                koiFish.FishName,
+                koiFish.ImgUrl,
+                koiFish.Description,
+                Destiny = new
+                {
+                    koiFish.Destiny.DestinyId,
+                    koiFish.Destiny.DestitnyName,
+                    BlogIds = koiFish.Destiny.Blogs.Select(b => b.BlogId),
+                    CommentIds = koiFish.Destiny.Comments.Select(c => c.CommentId),
+                    KoiFishIds = koiFish.Destiny.KoiFishes.Select(kf => kf.FishId)
+                }
+            };
         }
 
         public async Task CreateKoiFish(KoiFishCreateDto koiFishDto)
