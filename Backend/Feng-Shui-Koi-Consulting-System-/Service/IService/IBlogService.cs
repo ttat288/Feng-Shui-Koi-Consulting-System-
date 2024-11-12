@@ -1,4 +1,5 @@
 ﻿using Repository.Entities;
+using Service.Models.BlogDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Service.IService
 {
     public interface IBlogService
     {
-        Task<IEnumerable<Blog>> GetAllBlogs(int? pageIndex = null, int? pageSize = null);
+        Task<IEnumerable<BlogDetailsDto>> GetAllBlogDetails(int? pageIndex = null, int? pageSize = null);
+        Task<BlogDetailsDto> GetFullBlogById(int id);
         Task<Blog> GetBlogById(int id);
         Task CreateBlog(Blog blog);
         Task UpdateBlog(Blog blog);

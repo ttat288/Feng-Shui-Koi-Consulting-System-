@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository.Entities;
 using Service.IService;
-using Service.Models;
+using Service.Models.BlogDTOs;
 
 namespace API.Controllers
 {
@@ -21,20 +21,20 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllBlogs(int? pageIndex = null, int? pageSize = null)
         {
-            var blogs = await _blogService.GetAllBlogs(pageIndex, pageSize);
-            return Ok(new { StatusCode = 200, Message = "Thành công", Data = blogs });
+            var blogs = await _blogService.GetAllBlogDetails(pageIndex, pageSize);
+            return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Thành công", Data = blogs });
         }
 
         // GET: api/Blog/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBlogById(int id)
         {
-            var blog = await _blogService.GetBlogById(id);
+            var blog = await _blogService.GetFullBlogById(id);
             if (blog == null)
             {
-                return NotFound(new { StatusCode = 404, Message = "Không tìm thấy blog", Data = (object)null });
+                return NotFound(new { StatusCode = StatusCodes.Status404NotFound, Message = "Không tìm thấy blog", Data = (object)null });
             }
-            return Ok(new { StatusCode = 200, Message = "Thành công", Data = blog });
+            return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Thành công", Data = blog });
         }
 
         // POST: api/Blog
