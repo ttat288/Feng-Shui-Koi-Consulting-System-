@@ -99,6 +99,10 @@ function Login() {
 
         if (response.data.roleId.toString() === UserRole.Admin.toString()) {
           localStorage.setItem("UserId", response.data.userId.toString());
+          navigate("/admin", { state: { toastMessage } });
+        }
+        if (response.data.roleId.toString() === UserRole.Member.toString()) {
+          localStorage.setItem("UserId", response.data.userId.toString());
           navigate("/", { state: { toastMessage } });
         }
       }
@@ -123,6 +127,10 @@ function Login() {
         const toastMessage = response.message;
 
         if (response.data.roleId.toString() === UserRole.Admin.toString()) {
+          localStorage.setItem("UserId", response.data.userId.toString());
+          navigate("/admin", { state: { toastMessage } });
+        }
+        if (response.data.roleId.toString() === UserRole.Member.toString()) {
           localStorage.setItem("UserId", response.data.userId.toString());
           navigate("/", { state: { toastMessage } });
         }

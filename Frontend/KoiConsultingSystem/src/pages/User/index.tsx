@@ -12,28 +12,26 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { getUserById, updateUser } from "../../services/UserService";
+import { UpdateUserPayload } from "../../payloads/requests/updateUserRequests.model";
 
 function UserInfo() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    fullname: "",
-    dob: "",
-    phone: "",
-    gender: "Male",
-  });
+  const [user, setUser] = useState<UserData | undefined>();
   const [isEditing, setIsEditing] = useState(false);
 
   const bgColor = useColorModeValue("white", "gray.800");
 
-  // Function to fetch user data (replace this with actual API call)
   const fetchUserInfo = async () => {
-    const fetchedData = {
-      fullname: "John Doe",
-      dob: "1990-01-01",
-      phone: "123456789",
-      gender: "Male",
-    };
-    setUser(fetchedData);
+    const userId = localStorage.getItem("UserId");
+
+    if (!userId) {
+      console.error("UserId not found in localStorage");
+      return;
+    }
+
+    const fetchedData = await getUserById(Number(userId));
+    setUser(fetchedData.isSuccess ? fetchedData.data ?? undefined : undefined);
   };
 
   useEffect(() => {
@@ -42,21 +40,49 @@ function UserInfo() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser((prev) => (prev ? { ...prev, [name]: value } : prev));
   };
 
   const handleGenderChange = (value: string) => {
-    setUser((prev) => ({ ...prev, gender: value }));
+    setUser((prev) => (prev ? { ...prev, gender: value } : prev));
   };
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Call API to update user info
-    console.log("User info saved:", user);
+  const handleSave = async () => {
+    if (!user) return;
+
+    const payload: UpdateUserPayload = {
+      isActive: user.isActive ?? true,
+      fullname: user.fullname ?? "", // Chuyển null thành chuỗi rỗng
+      phone: user.phone ?? "", // Chuyển null thành chuỗi rỗng
+      dob: {
+        year: user.dob ? new Date(user.dob).getFullYear() : 0,
+        month: user.dob ? new Date(user.dob).getMonth() + 1 : 0,
+        day: user.dob ? new Date(user.dob).getDate() : 0,
+        dayOfWeek: user.dob ? new Date(user.dob).getDay() : 0,
+      },
+      gender: user.gender ?? "", // Chuyển null thành chuỗi rỗng
+      updateBy: 0, // Set the user ID of the updater here
+    };
+    console.log("Payload to update user:", JSON.stringify(payload, null, 2));
+
+    try {
+      const response = await updateUser(
+        Number(localStorage.getItem("UserId")),
+        payload
+      );
+      if (response.isSuccess) {
+        setIsEditing(false);
+        console.log("User info updated successfully");
+      } else {
+        console.error("Failed to update user:", response.message);
+      }
+    } catch (error) {
+      console.error("An error occurred while updating user:", error);
+    }
   };
 
   const handleBackToHome = () => {
@@ -80,7 +106,7 @@ function UserInfo() {
           <FormLabel>Full Name</FormLabel>
           <Input
             name="fullname"
-            value={user.fullname}
+            value={user?.fullname || ""}
             onChange={handleChange}
             placeholder="Enter your full name"
             isReadOnly={!isEditing}
@@ -92,7 +118,7 @@ function UserInfo() {
           <Input
             name="dob"
             type="date"
-            value={user.dob}
+            value={user?.dob || ""}
             onChange={handleChange}
             isReadOnly={!isEditing}
           />
@@ -102,7 +128,7 @@ function UserInfo() {
           <FormLabel>Phone</FormLabel>
           <Input
             name="phone"
-            value={user.phone}
+            value={user?.phone || ""}
             onChange={handleChange}
             placeholder="Enter your phone number"
             isReadOnly={!isEditing}
@@ -113,7 +139,7 @@ function UserInfo() {
           <FormLabel>Gender</FormLabel>
           <RadioGroup
             onChange={handleGenderChange}
-            value={user.gender}
+            value={user?.gender || ""}
             isDisabled={!isEditing}
           >
             <Stack direction="row">
