@@ -330,7 +330,7 @@ namespace API.Controllers
                 dto.Password = reqObj.NewPassword;
                 dto.IsActive = true;
                 var result = await _appUserService.Update(id, dto);
-                if (!result)
+                if (result == null)
                 {
                     return NotFound(new BaseResponse
                     {

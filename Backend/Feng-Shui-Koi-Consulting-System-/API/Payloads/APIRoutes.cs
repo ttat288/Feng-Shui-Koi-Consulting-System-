@@ -21,11 +21,11 @@
         {
             public const string GetAll = Base + "/app-users/";
 
-            public const string GetByID = Base + "/app-user/id/{id}";
+            public const string GetByID = Base + "/app-user/{id}";
 
-            public const string Update = Base + "/app-user/id/{id}";
+            public const string Update = Base + "/app-user/{id}";
 
-            public const string Delete = Base + "/app-user/";
+            public const string Delete = Base + "/app-user/{id}";
 
             public const string Add = Base + "/app-user/";
         }

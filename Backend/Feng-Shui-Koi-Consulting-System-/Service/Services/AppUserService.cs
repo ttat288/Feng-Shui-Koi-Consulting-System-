@@ -107,13 +107,13 @@ namespace Service.Services
             return null!;
         }
 
-        public async Task<bool> Update(int id, AppUserDTO entityToUpdate)
+        public async Task<AppUserDTO> Update(int id, AppUserDTO entityToUpdate)
         {
             Expression<Func<AppUser, bool>> condition = x => x.UserId == id && (x.Status != (int)Status.Deleted);
             var updateAppUser = await _unitOfWork.AppUserRepository.GetByCondition(condition);
             if (updateAppUser == null)
             {
-                return false;
+                return null!;
             }
             if (!string.IsNullOrEmpty(entityToUpdate.Password))
             {
@@ -163,7 +163,11 @@ namespace Service.Services
 
             _unitOfWork.AppUserRepository.Update(updateAppUser);
             var result = await _unitOfWork.SaveAsync() > 0 ? true : false;
-            return result;
+            if (result)
+            {
+                return _mapper.Map<AppUserDTO>(updateAppUser);
+            }
+            return null!;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Service.ISerivice
 
         Task<bool> Delete(int id);
 
-        Task<bool> Update(int id, AppUserDTO entityToUpdate);
+        Task<AppUserDTO> Update(int id, AppUserDTO entityToUpdate);
 
         Task<int> Count();
         Task<AppUserDTO> GetUserByEmailAsync(string gmail);
