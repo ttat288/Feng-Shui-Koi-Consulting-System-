@@ -106,7 +106,7 @@ namespace API.Controllers
 
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpPut(APIRoutes.AppUser.Update, Name = "UpdateUserAsync")]
-        public async Task<IActionResult> UpdateUserAsync(int id,[FromBody] UpdateAppUserRequest reqObj)
+        public async Task<IActionResult> UpdateUserAsync([FromRoute] int id,[FromBody] UpdateAppUserRequest reqObj)
         {
             try
             {
@@ -115,11 +115,11 @@ namespace API.Controllers
                 dto.Phone = reqObj.Phone;
                 dto.Gender = reqObj.Gender;
                 dto.Fullname = reqObj.Fullname;
-                dto.Dob = reqObj.Dob;
+                dto.Dob = reqObj.Dob.HasValue ? DateOnly.FromDateTime(reqObj.Dob.Value) : null;
                 dto.UpdateBy = reqObj.UpdateBy;
 
                 var result = await _appUserService.Update(id, dto);
-                if (!result)
+                if (result == null)
                 {
                     return NotFound(new BaseResponse
                     {
