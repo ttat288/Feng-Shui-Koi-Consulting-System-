@@ -115,7 +115,9 @@ namespace API.Controllers
                 dto.Phone = reqObj.Phone;
                 dto.Gender = reqObj.Gender;
                 dto.Fullname = reqObj.Fullname;
-                dto.Dob = reqObj.Dob.HasValue ? DateOnly.FromDateTime(reqObj.Dob.Value) : null;
+                dto.Dob = !string.IsNullOrEmpty(reqObj.Dob) && DateOnly.TryParse(reqObj.Dob, out DateOnly dobDate)
+                                                                                                                    ? dobDate
+                                                                                                                    : (DateOnly?)null;
                 dto.UpdateBy = reqObj.UpdateBy;
 
                 var result = await _appUserService.Update(id, dto);
