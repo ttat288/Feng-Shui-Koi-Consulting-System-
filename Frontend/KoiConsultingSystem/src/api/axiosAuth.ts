@@ -5,11 +5,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { toast } from "react-toastify";
-import {
-  convertKeysToCamelCase,
-  convertKeysToKebabCase,
-  convertQueryParamsToKebabCase,
-} from "../utils/keyCaseConverter";
+import { convertKeysToCamelCase } from "../utils/keyCaseConverter";
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 const API_PORT = import.meta.env.VITE_API_PORT;
@@ -41,13 +37,8 @@ axiosAuth.interceptors.request.use(
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
-    if (config.data) {
-      config.data = convertKeysToKebabCase(config.data);
-    }
-
-    if (config.params) {
-      config.params = convertQueryParamsToKebabCase(config.params);
-    }
+    // No kebab-case conversion for data
+    // No kebab-case conversion for params
 
     return config;
   },

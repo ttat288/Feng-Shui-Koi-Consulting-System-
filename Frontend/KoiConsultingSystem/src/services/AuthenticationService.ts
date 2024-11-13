@@ -28,6 +28,23 @@ export const login = async (
   }
 };
 
+
+export const LoginWithGoogle = async (
+  email:string
+): Promise<LoginResponse> => {
+
+  console.log("goi API BE ...");
+  console.log("emai: " + email);
+  
+  const res = await axiosLogin.post("authentication/login-gmail",JSON.stringify(email))
+  
+  const apiResponse = res.data as LoginResponse;
+  
+  // Kiểm tra dữ liệu trả về
+  console.log("API response:", apiResponse);
+  return apiResponse;
+}
+
 export const refreshToken = async (): Promise<string | undefined> => {
   try {
     const accessToken = localStorage.getItem("AccessToken");

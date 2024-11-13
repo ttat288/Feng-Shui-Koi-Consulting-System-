@@ -86,16 +86,16 @@ builder.Services.AddScoped<IFishPondService, FishPondService>();
 builder.Services.AddScoped<BlogImageService>();
 
 //CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:5000")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSpecificOrigins",
+//        builder =>
+//        {
+//            builder.WithOrigins("http://localhost:5000")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//        });
+//});
 
 
 
@@ -152,7 +152,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigins");
+//app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthorization();
 

@@ -10,8 +10,10 @@ import {
   Input,
   Textarea,
   useColorModeValue,
+  Img,
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
+import KoiFishGif from "../../assets/gif/koiFishGif.gif";
 
 // Sample blog data
 const blogs = [
@@ -120,7 +122,7 @@ function BlogDetail() {
     }
   };
 
-  if (!blog) return <Text>Blog not found!</Text>;
+  if (!blog) return <Img src={KoiFishGif} />;
 
   return (
     <Box p={6}>

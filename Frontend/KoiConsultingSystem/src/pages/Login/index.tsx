@@ -19,7 +19,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { login } from "../../services/AuthenticationService";
+import { login, LoginWithGoogle } from "../../services/AuthenticationService";
 import LoadingFish from "../../assets/gif/fish.gif";
 import { toast } from "react-toastify";
 import { UserRole } from "../../constants/Enum";
@@ -57,6 +57,9 @@ function Login() {
       localStorage.getItem("RefreshToken") !== null;
     if (isLoggedIn && roleId !== null) {
       if (roleId.toString() === UserRole.Admin.toString()) {
+        navigate("/");
+      }
+      if (roleId.toString() === UserRole.Member.toString()) {
         navigate("/");
       }
     }
@@ -104,12 +107,29 @@ function Login() {
     }
   };
 
-  const handleGoogleLogin = (credentialResponse: any) => {
+  const handleGoogleLogin = async (credentialResponse: any) => {
     const { credential } = credentialResponse;
-    console.log("Google login success, token:", credential);
+    try {
+      setIsLoading(true);
+      const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+      const a = decodedToken.email;
 
-    const decodedToken = JSON.parse(atob(credential.split(".")[1]));
-    console.log("User Info:", decodedToken);
+      const response = await LoginWithGoogle(a);
+
+      if (response.statusCode === 200) {
+        localStorage.setItem("RoleId", response.data.roleId.toString());
+        localStorage.setItem("AccessToken", response.data.token.accessToken);
+        localStorage.setItem("RefreshToken", response.data.token.refreshToken);
+        const toastMessage = response.message;
+
+        if (response.data.roleId.toString() === UserRole.Admin.toString()) {
+          localStorage.setItem("UserId", response.data.userId.toString());
+          navigate("/", { state: { toastMessage } });
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {

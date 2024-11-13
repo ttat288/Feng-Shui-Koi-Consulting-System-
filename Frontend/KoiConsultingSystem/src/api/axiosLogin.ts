@@ -4,10 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { toast } from "react-toastify";
-import {
-  convertKeysToCamelCase,
-  convertKeysToKebabCase,
-} from "../utils/keyCaseConverter";
+import { convertKeysToCamelCase } from "../utils/keyCaseConverter";
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 const API_PORT = import.meta.env.VITE_API_PORT;
@@ -29,10 +26,7 @@ const axiosLogin: AxiosInstance = axios.create({
 
 axiosLogin.interceptors.request.use(
   function (config: InternalAxiosRequestConfig) {
-    if (config.data) {
-      config.data = convertKeysToKebabCase(config.data);
-    }
-
+    // No kebab-case conversion needed here
     return config;
   },
   function (error) {
@@ -48,7 +42,6 @@ axiosLogin.interceptors.response.use(
     }
     return response;
   },
-
   function (error) {
     if (error.message === "Network Error" && !error.response) {
       toast.error("Lỗi mạng, vui lòng kiểm tra kết nối!");
