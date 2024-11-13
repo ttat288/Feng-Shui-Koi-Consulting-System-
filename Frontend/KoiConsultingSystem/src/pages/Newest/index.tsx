@@ -129,20 +129,23 @@ function Newest() {
       mt="10px"
       bg={bgColor}
       w="95%"
+      userSelect="none"
     >
       {/* Filter by banMenh */}
-      <Flex mb={4} justifyContent="center" w="100%">
-        <Select
-          placeholder="Filter with your destiny"
-          value={selectedBanMenh}
-          onChange={(e) => setSelectedBanMenh(e.target.value)}
-          width="auto"
-        >
-          <option value="Kim">Kim</option>
-          <option value="Mộc">Mộc</option>
-          <option value="Thủy">Thủy</option>
-          <option value="Hỏa">Hỏa</option>
-        </Select>
+      <Flex width="100%">
+        <Flex mb={4} justifyContent="flex-start" w="100%">
+          <Select
+            placeholder="Filter with your destiny"
+            value={selectedBanMenh}
+            onChange={(e) => setSelectedBanMenh(e.target.value)}
+            width="auto"
+          >
+            <option value="Kim">Kim</option>
+            <option value="Mộc">Mộc</option>
+            <option value="Thủy">Thủy</option>
+            <option value="Hỏa">Hỏa</option>
+          </Select>
+        </Flex>
       </Flex>
 
       <Flex

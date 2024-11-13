@@ -1,26 +1,27 @@
 export interface UserForm {
-  fullName: {
-    value: string;
-    errorMessage: string;
-  };
   userName: {
     value: string;
     errorMessage: string;
   };
-  phoneNumber: {
+  userPassword: {
     value: string;
     errorMessage: string;
   };
-  DOB: {
-    value: Date | null;
+  fullname: {
+    value: string;
+    errorMessage: string;
+  };
+  phone: {
+    value: string;
+    errorMessage: string;
+  };
+  dob: {
+    value: Date;
     errorMessage: string;
   };
   gender: {
     value: string;
     errorMessage: string;
   };
-  isActive: {
-    value: number | null;
-    errorMessage: string;
-  };
+  
 }
