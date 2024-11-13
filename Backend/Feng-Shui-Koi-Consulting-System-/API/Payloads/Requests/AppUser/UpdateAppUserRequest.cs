@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Payloads.Request.AppUser
@@ -14,11 +15,11 @@ namespace API.Payloads.Request.AppUser
         [JsonProperty("full-name")]
         public string? Fullname { get; set; }
 
-        [Phone]
+        //[Phone]
         [JsonProperty("phone")]
         public string? Phone { get; set; }
         [JsonProperty("dob")]
-        public DateTime? Dob { get; set; }
+        public string? Dob { get; set; }
 
         [StringLength(10)]
         [JsonProperty("gender")]
