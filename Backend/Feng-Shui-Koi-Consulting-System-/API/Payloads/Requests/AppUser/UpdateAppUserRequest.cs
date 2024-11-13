@@ -18,7 +18,7 @@ namespace API.Payloads.Request.AppUser
         [JsonProperty("phone")]
         public string? Phone { get; set; }
         [JsonProperty("dob")]
-        public DateOnly? Dob { get; set; }
+        public DateTime? Dob { get; set; }
 
         [StringLength(10)]
         [JsonProperty("gender")]
