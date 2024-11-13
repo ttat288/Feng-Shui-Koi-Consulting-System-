@@ -27,14 +27,55 @@ namespace Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<FishPond>> GetAllFishPonds(int? pageIndex = null, int? pageSize = null)
+        public async Task<IEnumerable<object>> GetAllFishPonds(int? pageIndex = null, int? pageSize = null)
         {
-            return await _fishPondRepository.GetAllFishPonds(pageIndex, pageSize);
+            // Lấy tất cả FishPond từ Repository
+            var fishPonds = await _fishPondRepository.GetAllFishPonds(pageIndex, pageSize);
+
+            // Chuyển đổi mỗi FishPond để chỉ lấy Ids của Blog, Comment và KoiFish
+            return fishPonds.Select(fp => new
+            {
+                fp.FishPondId,
+                fp.PondName,
+                fp.ImgUrl,
+                fp.Description,
+                Destiny = new
+                {
+                    fp.Destiny.DestinyId,
+                    fp.Destiny.DestitnyName,
+                    BlogIds = fp.Destiny.Blogs.Select(b => b.BlogId),
+                    CommentIds = fp.Destiny.Comments.Select(c => c.CommentId),
+                    KoiFishIds = fp.Destiny.KoiFishes.Select(kf => kf.FishId)
+                }
+            });
         }
 
-        public async Task<FishPond> GetFishPondById(int id)
+        public async Task<object?> GetFishPondById(int id)
         {
-            return await _fishPondRepository.GetFishPondById(id);
+            // Lấy FishPond theo Id từ Repository
+            var fishPond = await _fishPondRepository.GetFishPondById(id);
+
+            if (fishPond == null)
+            {
+                return null;
+            }
+
+            // Chuyển đổi FishPond để chỉ lấy Ids của Blog, Comment và KoiFish
+            return new
+            {
+                fishPond.FishPondId,
+                fishPond.PondName,
+                fishPond.ImgUrl,
+                fishPond.Description,
+                Destiny = new
+                {
+                    fishPond.Destiny.DestinyId,
+                    fishPond.Destiny.DestitnyName,
+                    BlogIds = fishPond.Destiny.Blogs.Select(b => b.BlogId),
+                    CommentIds = fishPond.Destiny.Comments.Select(c => c.CommentId),
+                    KoiFishIds = fishPond.Destiny.KoiFishes.Select(kf => kf.FishId)
+                }
+            };
         }
 
         public async Task CreateFishPond(FishPondCreateDto fishPondDto)

@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Newest from "../pages/Newest";
 import Register from "../pages/Register";
 import BlogDetail from "../pages/Newest/BlogDetail"; // Tạo component BlogDetail
+import UserInfo from "../pages/User";
 
 interface RouteItem {
   path: string;
@@ -15,6 +16,7 @@ export const publicRoutes: RouteItem[] = [
   { path: "/login", component: Login, layout: null },
   { path: "/register", component: Register, layout: null },
   { path: "/newest/:title", component: BlogDetail, layout: DefaultLayout }, // Sử dụng component: BlogDetail
+  { path: "/user/", component: UserInfo, layout: DefaultLayout }, // Sử dụng component: BlogDetail
 ];
 
 export const privateRoutes: RouteItem[] = [];
