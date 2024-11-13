@@ -85,16 +85,16 @@ builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IFishPondService, FishPondService>();
 
 //CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:5000")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSpecificOrigins",
+//        builder =>
+//        {
+//            builder.WithOrigins("http://localhost:5000")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//        });
+//});
 
 
 
