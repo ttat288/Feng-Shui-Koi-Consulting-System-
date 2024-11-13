@@ -54,26 +54,26 @@ function UserInfo() {
   const handleSave = async () => {
     if (!user) return;
 
+    const userId = Number(localStorage.getItem("UserId"));
+    if (!userId) {
+      console.error("UserId not found in localStorage");
+      return;
+    }
+
     const payload: UpdateUserPayload = {
       isActive: user.isActive ?? true,
       fullname: user.fullname ?? "", // Chuyển null thành chuỗi rỗng
       phone: user.phone ?? "", // Chuyển null thành chuỗi rỗng
-      dob: {
-        year: user.dob ? new Date(user.dob).getFullYear() : 0,
-        month: user.dob ? new Date(user.dob).getMonth() + 1 : 0,
-        day: user.dob ? new Date(user.dob).getDate() : 0,
-        dayOfWeek: user.dob ? new Date(user.dob).getDay() : 0,
-      },
+      dob: user.dob ? new Date(user.dob).toISOString() : "", // Chuyển dob thành ISO string
       gender: user.gender ?? "", // Chuyển null thành chuỗi rỗng
-      updateBy: 0, // Set the user ID of the updater here
+      updateBy: userId, // Dùng userId để làm updateBy
     };
+
+    // Log payload để kiểm tra
     console.log("Payload to update user:", JSON.stringify(payload, null, 2));
 
     try {
-      const response = await updateUser(
-        Number(localStorage.getItem("UserId")),
-        payload
-      );
+      const response = await updateUser(userId, payload);
       if (response.isSuccess) {
         setIsEditing(false);
         console.log("User info updated successfully");

@@ -68,18 +68,21 @@ export const getUserById = async (userId: number): Promise<ApiResponse<UserData>
 
 export const updateUser = async (
   userId: number,
-  userData: UpdateUserPayload
-): Promise<ApiResponse<null>> => {
+  user: UpdateUserPayload
+): Promise<ApiResponse<Object>> => {
   try {
-    const response = await axiosAuth.put(`/app-user/${userId}`, userData);
-    return response.data as ApiResponse<null>;
-  } catch (error: any) {
-    return {
-      statusCode: error.response?.status || 500,
-      message: error.response?.data?.message || "An error occurred during update.",
-      isSuccess: false,
-      errors: error.response?.data?.errors || {},
-      data: null,
-    };
+    const response = await axiosAuth.put(
+      `app-user/${userId}`,
+      user,
+      {
+        headers: {
+          'User-ID': userId.toString(), // Thêm userId vào header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
   }
 };

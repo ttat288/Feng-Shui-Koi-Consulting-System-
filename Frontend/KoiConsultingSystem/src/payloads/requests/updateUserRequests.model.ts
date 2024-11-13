@@ -2,12 +2,7 @@ export interface UpdateUserPayload {
     isActive: boolean;
     fullname: string;
     phone: string;
-    dob: {
-      year: number;
-      month: number;
-      day: number;
-      dayOfWeek: number;
-    };
+    dob: string; 
     gender: string;
     updateBy: number;
   }
