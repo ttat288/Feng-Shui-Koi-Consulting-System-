@@ -47,6 +47,10 @@ function Header() {
     navigate("/login");
   }
 
+  function userInfohandler() {
+    navigate("/user");
+  }
+
   return (
     <Flex
       height="100px"
@@ -123,7 +127,7 @@ function Header() {
           <Avatar src="/path-to-avatar.png" height="50px" width="50px" />
         </MenuButton>
         <MenuList>
-          <MenuItem>User Info</MenuItem>
+          <MenuItem onClick={userInfohandler}>User Info</MenuItem>
           <MenuItem onClick={logoutHandler}>Logout</MenuItem>
         </MenuList>
       </Menu>

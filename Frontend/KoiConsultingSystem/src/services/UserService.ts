@@ -4,24 +4,9 @@ import { UserForm } from "../models/UserForm.model";
 import { userUpdate } from "../payloads/requests/updateRequests.model";
 import { ApiResponse } from "../payloads/responses/ApiResponse.model";
 import { GetData } from "../payloads/responses/GetData.model";
-import { UserData } from "../payloads/responses/UserData.model";
 import axios from "axios";
+import { UpdateUserPayload } from "../payloads/requests/updateUserRequests.model";
 
-export const getUsers = async (
-  currentPage: number,
-  rowsPerPage: number,
-  searchValue: string
-): Promise<GetData<UserData>> => {
-  const res = await axiosAuth.get("app-users", {
-    params: {
-      pageNumber: currentPage,
-      pageSize: rowsPerPage,
-      searchKey: searchValue,
-    },
-  });
-  const apiResponse = res.data as ApiResponse<Object>;
-  return apiResponse.data as GetData<UserData>;
-};
 
 export const createUser = async (
   user: UserForm,
@@ -65,33 +50,39 @@ export const createUser = async (
   }
 };
 
-
-
-export const getUser = async (id: number): Promise<ApiResponse<UserData>> => {
-  const res = await axiosAuth.get("app-user/get-by-id", {
-    params: {
-      id: id,
-    },
-  });
-  const apiResponse = res.data as ApiResponse<UserData>;
-  return apiResponse;
+export const getUserById = async (userId: number): Promise<ApiResponse<UserData>> => {
+  try {
+    const response = await axiosAuth.get(`/app-user/${userId}`);
+    const apiResponse = response.data as ApiResponse<UserData>;
+    return apiResponse;
+  } catch (error: any) {
+    return {
+      statusCode: error.response?.status || 500,
+      message: error.response?.data?.message || "An error occurred while fetching user data.",
+      isSuccess: false,
+      data: null,
+      errors: error.response?.data?.errors || null,
+    };
+  }
 };
 
 export const updateUser = async (
-  id: number,
-  user: userUpdate
+  userId: number,
+  user: UpdateUserPayload
 ): Promise<ApiResponse<Object>> => {
-  const res = await axiosAuth.put(`app-user?id=${id}`, user);
-  const apiResponse = res.data as ApiResponse<Object>;
-  return apiResponse;
-};
-
-export const deleteUser = async (id: number): Promise<ApiResponse<Object>> => {
-  const res = await axiosAuth.delete("app-user", {
-    params: {
-      id: id,
-    },
-  });
-  const apiResponse = res.data as ApiResponse<Object>;
-  return apiResponse;
+  try {
+    const response = await axiosAuth.put(
+      `app-user/${userId}`,
+      user,
+      {
+        headers: {
+          'User-ID': userId.toString(), // Thêm userId vào header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error;
+  }
 };

@@ -1,15 +1,25 @@
-export interface UserData {
-  userCode: string;
+interface UserResponse {
+  statusCode: number;
+  message: string;
+  isSuccess: boolean;
+  data: UserData | null;
+  errors: string | null;
+}
+
+interface UserData {
   userId: number;
-  fullname: string;
+  userCode: string;
   userName: string;
-  dob: Date;
-  gender: "Male" | "Female";
-  phone: string;
+  password: string;
   roleId: number;
-  createDate: Date;
+  roleName: string | null;
+  createDate: string;
   isActive: boolean;
   status: number;
-  updateBy: string;
-  updateDate: Date;
+  fullname: string;
+  phone: string | null;
+  dob: string | null;
+  gender: string | null;
+  updateBy: string | null;
+  updateDate: string | null;
 }

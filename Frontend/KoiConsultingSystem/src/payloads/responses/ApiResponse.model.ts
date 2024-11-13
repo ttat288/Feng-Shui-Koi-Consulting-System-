@@ -7,7 +7,7 @@ export interface ApiResponse<T> {
   message: string;
   isSuccess: boolean;
   errors: IDictionary<string[]>;
-  data: T;
+  data: T | null;
 }
 
 export interface ApiResponseNotPagin<T> {
