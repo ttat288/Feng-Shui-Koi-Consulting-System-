@@ -13,11 +13,16 @@ namespace Service.Services
     {
         private readonly IDestinyRepository _destinyRepository;
         private readonly IAppUserRepository _appUserRepository;
+        private readonly IKoiFishRepository _koiFishRepository;
+        private readonly IFishPondRepository _fishPondRepository;
 
-        public DestinyService(IDestinyRepository destinyRepository, IAppUserRepository appUserRepository)
+        public DestinyService(IDestinyRepository destinyRepository, IAppUserRepository appUserRepository,
+            IKoiFishRepository koiFishRepository, IFishPondRepository fishPondRepository)
         {
             _destinyRepository = destinyRepository;
             _appUserRepository = appUserRepository;
+            _koiFishRepository = koiFishRepository;
+            _fishPondRepository = fishPondRepository;
         }
 
         public async Task<DestinyResultDto> GetDestinyIdByUserId(int userId)
@@ -49,7 +54,7 @@ namespace Service.Services
             };
         }
 
-        public async Task<DestinyResultDto> GetDestinyName(int year)
+        public async Task<DestinyRmdDto> GetDestinyName(int year)
         {
             if (year < 1950 || year > DateTime.Now.Year)
             {
@@ -66,10 +71,33 @@ namespace Service.Services
             {
                 throw new ArgumentException("Không tìm thấy mệnh tương ứng.");
             }
-            return new DestinyResultDto
+
+            var koi = await _koiFishRepository.GetAllKoiFish();
+            var pond = await _fishPondRepository.GetAllFishPonds();
+            return new DestinyRmdDto
             {
                 DestinyId = destiny.DestinyId,
-                DestinyName = destiny.DestitnyName
+                DestinyName = destiny.DestitnyName,
+                KoiFishList = koi.Where(k => k.DestinyId == destiny.DestinyId)
+                         .Select(k => new KoiFishDto
+                         {
+                             FishId = k.FishId,
+                             FishName = k.FishName,
+                             ImgUrl = k.ImgUrl,
+                             Description = k.Description
+                         })
+                         .ToList() ?? new List<KoiFishDto>(),
+
+                FishPondList = pond.Where(p => p.DestinyId == destiny.DestinyId)
+                           .Select(p => new FishPondDto
+                           {
+                               FishPondId = p.FishPondId,
+                               PondName = p.PondName,
+                               ImgUrl = p.ImgUrl,
+                               Description = p.Description
+                           })
+                           .ToList() ?? new List<FishPondDto>()
+
             };
 
         }

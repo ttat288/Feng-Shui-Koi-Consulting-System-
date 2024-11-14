@@ -10,6 +10,6 @@ namespace Service.IService
     public interface IDestinyService
     {
         Task<DestinyResultDto> GetDestinyIdByUserId(int userId);
-        Task<DestinyResultDto> GetDestinyName(int year);
+        Task<DestinyRmdDto> GetDestinyName(int year);
     }
 }
