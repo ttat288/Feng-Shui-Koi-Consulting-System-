@@ -18,8 +18,10 @@ public partial class Comment
     public int DestinyId { get; set; }
 
     public int UserId { get; set; }
+    public int BlogId { get; set; }
 
     public virtual Destiny Destiny { get; set; } = null!;
+    public virtual Blog Blog { get; set; } = null!;
 
     public virtual AppUser User { get; set; } = null!;
 }

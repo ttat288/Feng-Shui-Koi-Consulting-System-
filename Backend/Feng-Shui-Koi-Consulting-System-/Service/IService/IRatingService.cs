@@ -18,5 +18,6 @@ namespace Service.IService
         Task<IEnumerable<RatingDto>> GetRatingsByBlogId(int blogId);
         Task<IEnumerable<RatingDto>> GetRatingsByUserId(int userId);
         Task<int> CountRatingsByBlogId(int blogId);
+        Task<bool> HasUserRatedBlog(int userId, int blogId);
     }
 }

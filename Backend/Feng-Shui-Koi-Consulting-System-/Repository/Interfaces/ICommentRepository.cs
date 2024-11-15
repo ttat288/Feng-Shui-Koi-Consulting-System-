@@ -14,5 +14,7 @@ namespace Repository.Interfaces
         Task InsertComment(Comment comment);
         Task UpdateComment(Comment comment);
         Task DeleteComment(int id);
+        Task<List<Comment>> GetCommentsByBlogId(int blogId);
+        Task<int> CountCommentsByBlogId(int blogId);
     }
 }

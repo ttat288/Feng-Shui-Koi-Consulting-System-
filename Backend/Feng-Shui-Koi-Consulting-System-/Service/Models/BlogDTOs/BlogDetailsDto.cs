@@ -23,5 +23,6 @@ namespace Service.Models.BlogDTOs
         public DestinyDto Destiny { get; set; }
         public UserDto User { get; set; }
         public BlogRatingDto Ratings { get; set; }
+        public BlogCommentDto Comments { get; set; }
     }
 }

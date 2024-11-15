@@ -15,5 +15,6 @@ namespace Repository.Interfaces
         Task UpdateRating(Rating rating);
         Task DeleteRating(int id);
         Task<Rating?> GetRatingByUserAndBlogId(int userId, int blogId);
+        Task<bool> HasUserRatedBlog(int userId, int blogId);
     }
 }

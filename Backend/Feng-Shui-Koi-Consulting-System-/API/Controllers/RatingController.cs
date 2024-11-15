@@ -147,5 +147,18 @@ namespace API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("hasRated")]
+        public async Task<IActionResult> HasUserRatedBlog(int userId, int blogId)
+        {
+            try
+            {
+                var hasRated = await _ratingService.HasUserRatedBlog(userId, blogId);
+                return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Rating check completed", HasRated = hasRated });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message });
+            }
+        }
     }
 }
