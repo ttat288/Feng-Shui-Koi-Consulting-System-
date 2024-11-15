@@ -41,6 +41,7 @@ const CreateBlog: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
 
   const handleContentChange = (value: string) => {
     setContent(value);
+    console.log(value);
   };
 
   const currentDate = new Date().toISOString().split("T")[0];

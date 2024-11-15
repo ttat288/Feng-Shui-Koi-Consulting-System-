@@ -9,13 +9,14 @@ import {
   ModalOverlay,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   Select,
-  Link,
   Text,
   Image,
+  VStack,
+  Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { calculateDestiny } from "../../services/DestinyService";
 
 type TinhBanMenhProps = {
   isOpen: boolean;
@@ -23,44 +24,28 @@ type TinhBanMenhProps = {
 };
 
 function TinhBanMenh({ isOpen, onClose }: TinhBanMenhProps) {
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [gender, setGender] = useState("");
-  const [genderError, setGenderError] = useState(false);
   const [resultOpen, setResultOpen] = useState(false);
+  const [destinyData, setDestinyData] = useState<DestinyResponse | null>(null);
 
-  const destinyInfo = {
-    destiny: "Kim",
-    koiFish: "Koi Fish Gold",
-    koiImage: "https://example.com/koi-fish-gold.jpg",
-    relatedLink: "https://example.com/related-articles",
-  };
-
-  const handleNext = () => {
-    if (!gender) {
-      setGenderError(true);
-      return;
-    }
-
-    const userData = {
-      birthDate: `${day}/${month}/${year}`,
-      gender,
-    };
-    console.log("User Data:", userData);
-
-    onClose();
-    setResultOpen(true);
-  };
-
-  const closeResult = () => setResultOpen(false);
-
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
   const years = Array.from(
     { length: 100 },
     (_, i) => new Date().getFullYear() - i
   );
+
+  const handleCalculateDestiny = async () => {
+    if (!year) return;
+
+    try {
+      const response = await calculateDestiny(parseInt(year));
+      setDestinyData(response.destinyData);
+      setResultOpen(true);
+    } catch (error) {
+      console.error("Error calculating destiny:", error);
+    }
+  };
+
+  const closeResult = () => setResultOpen(false);
 
   return (
     <>
@@ -71,31 +56,9 @@ function TinhBanMenh({ isOpen, onClose }: TinhBanMenhProps) {
           <ModalCloseButton />
           <ModalBody>
             <FormControl mb={4}>
-              <FormLabel>Date of Birth</FormLabel>
+              <FormLabel>Year of Birth</FormLabel>
               <Select
-                placeholder="Day"
-                onChange={(e) => setDay(e.target.value)}
-                mb={2}
-              >
-                {days.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </Select>
-              <Select
-                placeholder="Month"
-                onChange={(e) => setMonth(e.target.value)}
-                mb={2}
-              >
-                {months.map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
-                ))}
-              </Select>
-              <Select
-                placeholder="Year"
+                placeholder="Select Year"
                 onChange={(e) => setYear(e.target.value)}
               >
                 {years.map((y) => (
@@ -105,30 +68,12 @@ function TinhBanMenh({ isOpen, onClose }: TinhBanMenhProps) {
                 ))}
               </Select>
             </FormControl>
-
-            <FormControl isInvalid={genderError}>
-              <FormLabel>Gender</FormLabel>
-              <Select
-                placeholder="Select Gender"
-                onChange={(e) => {
-                  setGender(e.target.value);
-                  setGenderError(false);
-                }}
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </Select>
-              {genderError && (
-                <FormErrorMessage>Gender is required.</FormErrorMessage>
-              )}
-            </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost" onClick={handleNext}>
+            <Button variant="ghost" onClick={handleCalculateDestiny}>
               Calculate Destiny
             </Button>
           </ModalFooter>
@@ -138,31 +83,63 @@ function TinhBanMenh({ isOpen, onClose }: TinhBanMenhProps) {
       <Modal isOpen={resultOpen} onClose={closeResult}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Congratulations on Your Destiny!</ModalHeader>
+          <ModalHeader>Your Destiny</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>
-              Congratulations! You belong to the <b>{destinyInfo.destiny}</b>{" "}
-              destiny.
-            </Text>
-            <Text>
-              The suitable Koi fish for you is: <b>{destinyInfo.koiFish}</b>
-            </Text>
-            <Image
-              src={destinyInfo.koiImage}
-              alt="Suitable Koi Fish"
-              boxSize="200px"
-              mt={4}
-              borderRadius="md"
-            />
-            <Link
-              href={destinyInfo.relatedLink}
-              color="blue.500"
-              mt={4}
-              isExternal
-            >
-              View related articles
-            </Link>
+            {destinyData && (
+              <>
+                <Text>
+                  You belong to the <b>{destinyData.destinyId.destinyName}</b>{" "}
+                  destiny.
+                </Text>
+
+                <VStack align="start" spacing={4} mt={4}>
+                  <Text fontWeight="bold">Koi Fish List:</Text>
+                  {destinyData.destinyId.koiFishList.map((fish) => (
+                    <Box
+                      key={fish.fishId}
+                      p={3}
+                      borderWidth="1px"
+                      borderRadius="md"
+                    >
+                      <Text fontWeight="bold">{fish.fishName}</Text>
+                      <Text>{fish.description}</Text>
+                      {fish.imgUrl && (
+                        <Image
+                          src={fish.imgUrl}
+                          alt={fish.fishName}
+                          boxSize="100px"
+                          mt={2}
+                        />
+                      )}
+                    </Box>
+                  ))}
+
+                  <Text fontWeight="bold" mt={4}>
+                    Fish Pond List:
+                  </Text>
+                  {destinyData.destinyId.fishPondList.map((pond) => (
+                    <Box
+                      key={pond.fishPondId}
+                      p={3}
+                      borderWidth="1px"
+                      borderRadius="md"
+                    >
+                      <Text fontWeight="bold">{pond.pondName}</Text>
+                      <Text>{pond.description}</Text>
+                      {pond.imgUrl && (
+                        <Image
+                          src={pond.imgUrl}
+                          alt={pond.pondName}
+                          boxSize="100px"
+                          mt={2}
+                        />
+                      )}
+                    </Box>
+                  ))}
+                </VStack>
+              </>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" onClick={closeResult}>
