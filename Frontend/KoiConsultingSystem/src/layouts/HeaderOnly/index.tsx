@@ -1,10 +1,7 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
-import Header from "../../components/Header/Header";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Footer from "../../components/Footer/Footer";
 import { Flex } from "@chakra-ui/react";
+import React, { ReactNode } from "react";
+import Header from "../../components/Header/Header";
 import style from "./HeaderOnly.module.scss";
-import { useNavigate } from "react-router-dom";
 
 interface HeaderOnlyProps {
   children: ReactNode;

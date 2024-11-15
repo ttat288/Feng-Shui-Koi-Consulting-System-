@@ -29,6 +29,7 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.5.0",
     "react-calendar": "^5.1.0",
+    "react-custom-scrollbars-2": "^4.5.0",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",

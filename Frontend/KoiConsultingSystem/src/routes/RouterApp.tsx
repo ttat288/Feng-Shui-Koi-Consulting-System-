@@ -1,8 +1,12 @@
+// routes/RouterApp.tsx
+
 import { DefaultLayout } from "../layouts";
+import Dashboard from "../layouts/AdminLayout";
+// import AdminLayout from "../layouts/AdminLayout";
 import UserReports from "../pages/Admin/Dashboard";
 import Login from "../pages/Login";
 import Newest from "../pages/Newest";
-import BlogDetail from "../pages/Newest/BlogDetail"; // Create BlogDetail component
+import BlogDetail from "../pages/Newest/BlogDetail";
 import Register from "../pages/Register";
 import UserInfo from "../pages/User";
 
@@ -18,9 +22,9 @@ export const publicRoutes: RouteItem[] = [
   { path: "/register", component: Register, layout: null },
   { path: "/newest/:title", component: BlogDetail, layout: DefaultLayout },
   { path: "/user/", component: UserInfo, layout: DefaultLayout },
-  { path: "/admin", component: UserReports, layout: null },
+  // { path: "/admin", component: UserReports, layout: Dashboard },
 ];
 
 export const adminRoutes = [
-  { path: "/admin", component: UserReports, layout: null },
+  { path: "/admin", component: UserReports, layout: Dashboard },
 ];
