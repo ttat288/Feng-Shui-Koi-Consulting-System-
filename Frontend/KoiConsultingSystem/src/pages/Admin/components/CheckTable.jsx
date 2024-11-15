@@ -116,7 +116,7 @@ export default function CheckTable({ tableData }) {
     }),
   ];
 
-  const [data, setData] = useState([...tableData]);
+  const [data, setData] = useState(tableData || []);
   const table = useReactTable({
     data,
     columns,

@@ -142,7 +142,10 @@ export default function ComplexTable(props) {
       ),
     }),
   ];
-  const [data, setData] = React.useState(() => [...defaultData]);
+
+  const [data, setData] = React.useState(() =>
+    Array.isArray(defaultData) ? [...defaultData] : []
+  );
   const table = useReactTable({
     data,
     columns,

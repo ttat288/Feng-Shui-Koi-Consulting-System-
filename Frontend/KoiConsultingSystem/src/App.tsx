@@ -1,9 +1,8 @@
-import React, { Fragment } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoutes } from "./routes/RouterApp";
-import { DefaultLayout, NullLayout } from "./layouts";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "../node_modules/react-toastify/dist/ReactToastify.css";
+import { DefaultLayout, NullLayout } from "./layouts";
+import { publicRoutes } from "./routes/RouterApp";
 import { DataProvider } from "./store/DataContext";
 
 function App(): JSX.Element {
