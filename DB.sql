@@ -106,6 +106,7 @@ CREATE TABLE Blog
 (
 	BlogID INT NOT NULL IDENTITY(1,1),
 	BlogTitle NVARCHAR(200),
+	Description NVARCHAR(MAX),
 	BlogImg  NVARCHAR(MAX),
 	BlogData NVARCHAR(MAX),
 	CreateDate DATETIME,
