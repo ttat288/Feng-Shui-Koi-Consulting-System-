@@ -20,52 +20,74 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import {
+  createUser,
+  deleteUser,
+  getAllUsers,
+  updateUser,
+} from "../../services/UserService";
 
 // Example User Component
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   // Fetch users from API
   useEffect(() => {
-    axios
-      .get("/api/users") // Replace with your API endpoint
-      .then((response) => setUsers(response.data))
-      .catch((error) =>
-        toast({
-          title: "An error occurred",
-          description: error?.response?.data?.message || error.message,
-          status: "error",
-        })
-      );
+    fetchUsers();
   }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await getAllUsers();
+      if (response.isSuccess) {
+        setUsers(response.data);
+      } else {
+        toast({
+          title: "Error fetching users",
+          description: response.message,
+          status: "error",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "An error occurred",
+        description: "Unable to fetch users.",
+        status: "error",
+      });
+    }
+  };
 
   // Handle form submission for create and update
   const handleSubmit = async () => {
     const userData = {
       ...currentUser,
-      CreateDate: new Date().toISOString(), // or provide the correct format based on your API
+      CreateDate: new Date().toISOString(),
       UpdateDate: new Date().toISOString(),
     };
 
     try {
       if (isEdit) {
-        await axios.put(`/api/users/${currentUser.UserID}`, userData); // Update user API endpoint
+        await updateUser(currentUser.UserID, userData);
         toast({ title: "User updated successfully", status: "success" });
       } else {
-        await axios.post("/api/users", userData); // Create user API endpoint
+        await createUser(userData, userData.RoleID); // roleId should be passed as a second parameter
         toast({ title: "User created successfully", status: "success" });
       }
+      fetchUsers(); // Refresh users
       onClose();
-      setCurrentUser(null);
+      setCurrentUser({});
       setIsEdit(false);
     } catch (error) {
-      toast({ title: "An error occurred", status: "error" });
+      toast({
+        title: "An error occurred",
+        description: error.message || "Please try again.",
+        status: "error",
+      });
     }
   };
 
@@ -79,17 +101,28 @@ const UserManagement = () => {
   // Handle delete
   const handleDelete = async (userID) => {
     try {
-      await axios.delete(`/api/users/${userID}`); // Delete user API endpoint
+      await deleteUser(userID); // Delete user API endpoint
       setUsers(users.filter((user) => user.UserID !== userID));
       toast({ title: "User deleted successfully", status: "success" });
     } catch (error) {
-      toast({ title: "An error occurred", status: "error" });
+      toast({
+        title: "An error occurred",
+        description: error.message || "Unable to delete user.",
+        status: "error",
+      });
     }
+  };
+
+  // Open modal for adding new user
+  const handleAddNewUser = () => {
+    setCurrentUser({}); // Reset currentUser for new user creation
+    setIsEdit(false);
+    onOpen();
   };
 
   return (
     <Box p="5">
-      <Button colorScheme="blue" onClick={onOpen}>
+      <Button colorScheme="blue" onClick={handleAddNewUser}>
         Add New User
       </Button>
       <Table variant="simple" mt="4">
@@ -142,7 +175,7 @@ const UserManagement = () => {
             <FormControl isRequired>
               <FormLabel>User Code</FormLabel>
               <Input
-                value={currentUser?.UserCode || ""}
+                value={currentUser.UserCode || ""}
                 onChange={(e) =>
                   setCurrentUser({ ...currentUser, UserCode: e.target.value })
                 }
@@ -151,7 +184,7 @@ const UserManagement = () => {
             <FormControl isRequired mt="4">
               <FormLabel>User Name</FormLabel>
               <Input
-                value={currentUser?.UserName || ""}
+                value={currentUser.UserName || ""}
                 onChange={(e) =>
                   setCurrentUser({ ...currentUser, UserName: e.target.value })
                 }
@@ -160,7 +193,7 @@ const UserManagement = () => {
             <FormControl isRequired mt="4">
               <FormLabel>Phone</FormLabel>
               <Input
-                value={currentUser?.Phone || ""}
+                value={currentUser.Phone || ""}
                 onChange={(e) =>
                   setCurrentUser({ ...currentUser, Phone: e.target.value })
                 }
@@ -169,20 +202,20 @@ const UserManagement = () => {
             <FormControl isRequired mt="4">
               <FormLabel>Role</FormLabel>
               <Select
-                value={currentUser?.RoleID || ""}
+                value={currentUser.RoleID || ""}
                 onChange={(e) =>
                   setCurrentUser({ ...currentUser, RoleID: e.target.value })
                 }
               >
                 <option value={1}>Admin</option>
                 <option value={2}>User</option>
-                {/* Add other roles */}
+                {/* Add other roles as needed */}
               </Select>
             </FormControl>
             <FormControl mt="4">
               <FormLabel>Status</FormLabel>
               <Select
-                value={currentUser?.IsActive ? "active" : "inactive"}
+                value={currentUser.IsActive ? "active" : "inactive"}
                 onChange={(e) =>
                   setCurrentUser({
                     ...currentUser,
