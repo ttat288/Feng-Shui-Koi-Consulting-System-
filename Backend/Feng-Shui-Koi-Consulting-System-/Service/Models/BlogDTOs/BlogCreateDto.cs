@@ -10,6 +10,7 @@ namespace Service.Models.BlogDTOs
     {
         public string BlogTitle { get; set; }
         public string BlogData { get; set; }
+        public string Description { get; set; }
         public int DestinyId { get; set; }
         public int UserId { get; set; }
     }

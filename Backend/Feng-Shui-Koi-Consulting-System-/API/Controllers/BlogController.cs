@@ -45,6 +45,7 @@ namespace API.Controllers
             {
                 BlogTitle = blogDto.BlogTitle,
                 BlogData = blogDto.BlogData,
+                Description = blogDto.Description,
                 DestinyId = blogDto.DestinyId,
                 UserId = blogDto.UserId
             };
