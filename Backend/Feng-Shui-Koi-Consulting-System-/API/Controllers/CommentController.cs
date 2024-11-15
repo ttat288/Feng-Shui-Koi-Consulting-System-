@@ -44,7 +44,31 @@ namespace API.Controllers
             }
         }
 
-
-
+        [HttpGet("blog/{blogId}")]
+        public async Task<IActionResult> GetCommentsByBlogId(int blogId)
+        {
+            try
+            {
+                var comments = await _commentService.GetCommentsByBlogId(blogId);
+                return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Comments retrieved successfully", Data = comments });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, ex.Message });
+            }
+        }
+        [HttpGet("blog/{blogId}/count")]
+        public async Task<IActionResult> CountCommentsByBlogId(int blogId)
+        {
+            try
+            {
+                var count = await _commentService.CountCommentsByBlogId(blogId);
+                return Ok(new { StatusCode = StatusCodes.Status200OK, Message = "Comment count retrieved successfully", Data = count });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { StatusCode = StatusCodes.Status400BadRequest, ex.Message });
+            }
+        }
     }
 }

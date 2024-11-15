@@ -171,5 +171,11 @@ namespace Service.Services
             var ratings = await _ratingRepository.GetAllRatings();
             return ratings.Count(r => r.BlogId == blogId);
         }
+        public async Task<bool> HasUserRatedBlog(int userId, int blogId)
+        {
+            await ValidateUserExists(userId);
+            await ValidateBlogExists(blogId);
+            return await _ratingRepository.HasUserRatedBlog(userId, blogId);
+        }
     }
 }

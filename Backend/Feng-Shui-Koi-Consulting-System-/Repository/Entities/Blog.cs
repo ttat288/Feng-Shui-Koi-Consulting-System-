@@ -28,6 +28,7 @@ public partial class Blog
     public virtual Destiny Destiny { get; set; } = null!;
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual AppUser User { get; set; } = null!;
 }

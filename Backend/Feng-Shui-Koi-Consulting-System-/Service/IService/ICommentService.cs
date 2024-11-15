@@ -12,5 +12,7 @@ namespace Service.IService
     {
         Task<Comment> CreateComment(CreateCommentDto createCommentDto);
         Task<Comment> UpdateComment(int id, UpdateCommentDto updateCommentDto);
+        Task<List<CommentDetails>> GetCommentsByBlogId(int blogId);
+        Task<int> CountCommentsByBlogId(int blogId);
     }
 }

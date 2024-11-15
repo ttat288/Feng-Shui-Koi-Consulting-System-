@@ -20,6 +20,17 @@ namespace Repository.Repositories
             return await dbSet.FirstOrDefaultAsync(c => c.CommentId == id);
         }
 
+        public async Task<List<Comment>> GetCommentsByBlogId(int blogId)
+        {
+            return await dbSet
+                .Where(c => c.BlogId == blogId)
+                .ToListAsync();
+        }
+        public async Task<int> CountCommentsByBlogId(int blogId)
+        {
+            return await dbSet.CountAsync(c => c.BlogId == blogId);
+        }
+
         public async Task InsertComment(Comment comment)
         {
             await dbSet.AddAsync(comment);

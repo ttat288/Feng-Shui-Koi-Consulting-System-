@@ -40,5 +40,9 @@ namespace Repository.Repositories
             return await context.Ratings
                 .FirstOrDefaultAsync(r => r.UserId == userId && r.BlogId == blogId);
         }
+        public async Task<bool> HasUserRatedBlog(int userId, int blogId)
+        {
+            return await context.Ratings.AnyAsync(r => r.UserId == userId && r.BlogId == blogId);
+        }
     }
 }

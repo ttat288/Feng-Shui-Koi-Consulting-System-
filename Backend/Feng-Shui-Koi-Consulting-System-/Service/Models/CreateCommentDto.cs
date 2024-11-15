@@ -11,5 +11,6 @@ namespace Service.Models
         public string CommentData { get; set; } = string.Empty;
         public int UserId { get; set; }
         public int DestinyId { get; set; }
+        public int BlogId { get; set; }
     }
 }

@@ -30,7 +30,19 @@ namespace Service.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<List<CommentDetails>> GetCommentsByBlogId(int blogId)
+        {
+            var comments = await _commentRepository.GetCommentsByBlogId(blogId);
 
+            return comments.Select(c => new CommentDetails
+            {
+                CommentId = c.CommentId,
+                CommentData = c.CommentData,
+                CreateDate = c.CreateDate,
+                DestinyId = c.DestinyId,
+                UserId = c.UserId
+            }).ToList();
+        }
 
         public async Task<Comment> CreateComment(CreateCommentDto createCommentDto)
         {
@@ -49,6 +61,7 @@ namespace Service.Services
                 CommentData = createCommentDto.CommentData,
                 UserId = createCommentDto.UserId,
                 DestinyId = createCommentDto.DestinyId,
+                BlogId = createCommentDto.BlogId,
                 Status = 1,
                 CreateDate = DateTime.Now
             };
@@ -82,8 +95,10 @@ namespace Service.Services
             return comment;
         }
 
-
-
+        public async Task<int> CountCommentsByBlogId(int blogId)
+        {
+            return await _commentRepository.CountCommentsByBlogId(blogId);
+        }
 
         #region
         private async Task<bool> IsValidUserId(int userId)

@@ -20,6 +20,7 @@ namespace Service.Services
         private readonly IAppUserRepository _appUserRepository;
         private readonly IDestinyRepository _destinyRepository;
         private readonly IRatingRepository _ratingRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly BlogImageService _blogImageService;
 
@@ -29,6 +30,7 @@ namespace Service.Services
             IAppUserRepository appUserRepository,
             IDestinyRepository destinyRepository,
             IRatingRepository ratingRepository,
+            ICommentRepository commentRepository,
             IUnitOfWork unitOfWork,
             BlogImageService blogImageService)
         {
@@ -36,6 +38,7 @@ namespace Service.Services
             _appUserRepository = appUserRepository;
             _destinyRepository = destinyRepository;
             _ratingRepository = ratingRepository;
+            _commentRepository = commentRepository;
             _unitOfWork = unitOfWork;
             _blogImageService = blogImageService;
         }
@@ -51,6 +54,7 @@ namespace Service.Services
                 var user = await _appUserRepository.GetUserById(blog.UserId);
                 var destiny = await _destinyRepository.GetDestinyById(blog.DestinyId);
                 var ratingsCount = await CountRatingsByBlogId(blog.BlogId);
+                var commentsCount = await _commentRepository.CountCommentsByBlogId(blog.BlogId);
 
                 var blogDetails = await ToBlogDetailsDto(blog, user, destiny);
 
@@ -239,6 +243,10 @@ namespace Service.Services
                 Ratings = new BlogRatingDto
                 {
                     Rating = await CountRatingsByBlogId(blog.BlogId),
+                },
+                Comments = new BlogCommentDto
+                {
+                    Comment = await _commentRepository.CountCommentsByBlogId(blog.BlogId),
                 }
             };
         }
