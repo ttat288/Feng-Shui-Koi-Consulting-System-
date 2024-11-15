@@ -9,7 +9,7 @@ export function SidebarLinks() {
   const brandColor = useColorModeValue("brand.500", "brand.400");
 
   const routes = [
-    { name: "Dashboard", path: "/admin", layout: "/admin" },
+    { name: "Dashboard", path: "/", layout: "/admin" },
     { name: "User", path: "/user", layout: "/admin" },
   ];
 

@@ -9,6 +9,7 @@ import Newest from "../pages/Newest";
 import BlogDetail from "../pages/Newest/BlogDetail";
 import Register from "../pages/Register";
 import UserInfo from "../pages/User";
+import UserManagement from "../pages/UserManagement/UserManagement";
 
 interface RouteItem {
   path: string;
@@ -27,4 +28,5 @@ export const publicRoutes: RouteItem[] = [
 
 export const adminRoutes = [
   { path: "/admin", component: UserReports, layout: Dashboard },
+  { path: "/admin/user", component: UserManagement, layout: null },
 ];
