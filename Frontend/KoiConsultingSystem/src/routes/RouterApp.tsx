@@ -1,8 +1,10 @@
 import { DefaultLayout } from "../layouts";
+import Dashboard from "../layouts/AdminLayout";
+import UserReports from "../pages/Admin/Dashboard";
 import Login from "../pages/Login";
 import Newest from "../pages/Newest";
-import Register from "../pages/Register";
 import BlogDetail from "../pages/Newest/BlogDetail"; // Tạo component BlogDetail
+import Register from "../pages/Register";
 import UserInfo from "../pages/User";
 
 interface RouteItem {
@@ -17,6 +19,10 @@ export const publicRoutes: RouteItem[] = [
   { path: "/register", component: Register, layout: null },
   { path: "/newest/:title", component: BlogDetail, layout: DefaultLayout }, // Sử dụng component: BlogDetail
   { path: "/user/", component: UserInfo, layout: DefaultLayout }, // Sử dụng component: BlogDetail
+
+  { path: "/admin", component: UserReports, layout: Dashboard },
 ];
 
-export const privateRoutes: RouteItem[] = [];
+export const privateRoutes: RouteItem[] = [
+  { path: "/admin", component: UserReports, layout: Dashboard },
+];
