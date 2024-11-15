@@ -70,7 +70,7 @@ namespace Service.Services
                     koiFish.Destiny.DestitnyName,
                     BlogIds = koiFish.Destiny.Blogs.Select(b => b.BlogId),
                     CommentIds = koiFish.Destiny.Comments.Select(c => c.CommentId),
-                    KoiFishIds = koiFish.Destiny.KoiFishes.Select(kf => kf.FishId)
+                    FishPondIds = koiFish.Destiny.FishPonds.Select(kf => kf.FishPondId)
                 }
             };
         }

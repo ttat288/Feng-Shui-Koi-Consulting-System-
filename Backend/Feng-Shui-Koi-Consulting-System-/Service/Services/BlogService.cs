@@ -212,6 +212,7 @@ namespace Service.Services
             {
                 BlogId = blog.BlogId,
                 BlogTitle = blog.BlogTitle,
+                Description = blog.Description,
                 BlogImg = blog.BlogImg,
                 BlogData = blog.BlogData,
                 CreateDate = blog.CreateDate,
